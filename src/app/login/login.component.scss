@@ -1,0 +1,19 @@
+
+
+
+.card {
+  margin: auto;
+  width: 80%;
+  max-width: 500px;
+
+main {
+  background-color: rgb(249, 8, 8) ;
+  width: 100%;
+  max-width: 460px;
+  margin: 3% auto 5%;
+}
+
+  @media (min-width: 992px) {
+    margin-top: 100px;
+  }
+}

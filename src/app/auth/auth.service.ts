@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Md5 } from 'ts-md5';
 
 @Injectable({
@@ -8,7 +9,7 @@ import { Md5 } from 'ts-md5';
 export class AuthService {
 
   isLoggedIn = false;
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private router: Router) { }
 
   isAuthenticated() {
     return this.isLoggedIn
@@ -20,6 +21,7 @@ export class AuthService {
     this.httpClient.post<any>("http://localhost:8080/login", body).subscribe(resp => {
       if(resp.status == 200) {
         this.isLoggedIn = true
+        this.router.navigate(['hidden'])
       }
     })
   }

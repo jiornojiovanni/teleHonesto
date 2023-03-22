@@ -17,8 +17,10 @@ export class AuthService {
   auth(email: string, password: string) {
     let body = { email: email, password: new Md5().appendStr(password).end() }
 
-    this.httpClient.post("http://localhost:8080/login", body).subscribe(resp => {
-      this.isLoggedIn = true
+    this.httpClient.post<any>("http://localhost:8080/login", body).subscribe(resp => {
+      if(resp.status == 200) {
+        this.isLoggedIn = true
+      }
     })
   }
 }

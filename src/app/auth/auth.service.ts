@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -6,13 +7,17 @@ import { Injectable } from '@angular/core';
 export class AuthService {
 
   isLoggedIn = false;
-  constructor() { }
+  constructor(private httpClient: HttpClient) { }
 
   isAuthenticated() {
     return this.isLoggedIn
   }
 
   auth(email: string, password: string) {
-    this.isLoggedIn = true
+    let body = {email: email, password: password}
+
+    this.httpClient.post("http://localhost:8080/login", body).subscribe(resp => {
+      this.isLoggedIn = true
+    })
   }
 }

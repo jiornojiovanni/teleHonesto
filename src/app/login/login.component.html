@@ -1,4 +1,4 @@
-    
+
 <main>
 <section class="mx-auto" style="height: 100%">
     <!-- Jumbotron -->
@@ -17,35 +17,35 @@
               veritatis? Dicta facilis sint aliquid ipsum atque
             </p>
           </div>
-  
+
           <div class="col-lg-6 mb-5 mb-lg-0">
             <div class="card">
               <div class="card-body py-5 px-md-5">
                 <form>
                   <!-- 2 column grid layout with text inputs for the first and last names -->
-  
+
                   <!-- Email input -->
                   <div class="form-outline mb-4">
-                    <input type="text" id="form3Example3" class="form-control"[(ngModel)]="email" required>
+                    <input type="text" id="form3Example3" class="form-control" name="email" [(ngModel)]="email" required>
                     <label class="form-label" for="form3Example3">Email</label>
                   </div>
-  
+
                   <!-- Password input -->
                   <div class="form-outline mb-4">
-                    
-                    <input type="password" id="form3Example4" class="form-control"[(ngModel)]="password" required>
+
+                    <input type="password" id="form3Example4" class="form-control" name="password" [(ngModel)]="password" required>
                     <label class="form-label" for="form3Example4">Password</label>
                   </div>
-  
-                
+
+
                   <a routerLink="/hidden"><p>test</p></a>
                   <!-- Submit button -->
                   <button (click)="submit()" class="btn btn-primary btn-block mb-4">
-                      
+
                     Login
                   </button>
-  
-                 
+
+
                 </form>
               </div>
             </div>

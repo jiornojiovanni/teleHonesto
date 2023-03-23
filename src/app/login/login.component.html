@@ -1,43 +1,64 @@
-<main>
-  <section class="mx-auto" style="height: 100%">
-    <div class="px-4 py-5 px-md-5 text-center text-lg-start" style="background-color: hsl(0, 0%, 96%)">
-      <div class="container">
-        <div class="row gx-lg-5 align-items-center">
-          <div class="col-lg-6 mb-5 mb-lg-0">
-            <h1 class="my-5 display-3 fw-bold ls-tight">
-              Tele
-              <span class="text-primary">Honesto</span>
-            </h1>
-            <p style="color: hsl(217, 10%, 50.8%)">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet,
-              itaque accusantium odio, soluta, corrupti aliquam quibusdam
-              tempora at cupiditate quis eum maiores libero veritatis? Dicta
-              facilis sint aliquid ipsum atque
-            </p>
-          </div>
-          <div class="col-lg-6 mb-5 mb-lg-0">
-            <div class="card">
-              <div class="card-body py-5 px-md-5">
+<section class="vh-100" style="background-color: hsla(204, 100%, 37%, 0.819);">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-xl-10">
+        <div class="card" style="border-radius: 1rem;">
+          <div class="row g-0">
+            <div class="col-md-6 col-lg-5 d-none d-md-block">
+              <img src="assets/images/login_image.jpg"
+                alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
+            </div>
+            <div class="col-md-6 col-lg-7 d-flex align-items-center">
+              <div class="card-body p-4 p-lg-5 text-black">
+
                 <form #loginForm="ngForm" (submit)="submit()">
-                  <div class="form-outline mb-4">
-                    <input type="text" id="form3Example3" class="form-control" name="email" [(ngModel)]="email" required
-                      #emailInput="ngModel" />
-                    <label class="form-label" for="form3Example3">Email</label>
+
+                  <div class="d-flex align-items-center mb-3 pb-1">
+                    
+                    <span class="h1 fw-bold mb-0">Honesto</span>
                   </div>
+
+                  <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Accedi al tuo account</h5>
+
                   <div class="form-outline mb-4">
-                    <input type="password" id="form3Example4" class="form-control" name="password"
+                    <label class="form-label" for="form2Example17">Email</label>
+                    <input type="email" id="emailField" class="form-control form-control-lg" name="email" [(ngModel)]="email" placeholder="Inserisci Email" required
+                    #emailInput="ngModel" />
+                    
+                   
+                  </div>
+
+                  <div class="form-outline mb-4">
+                    
+                    <label class="form-label" for="form2Example27">Password</label>
+                    <input type="password" id="passwordField" class="form-control form-control-lg" name="password" placeholder="Inserisci password"
                       [(ngModel)]="password" required />
-                    <label class="form-label" for="form3Example4">Password</label>
+                    
                   </div>
-                  <button [disabled]="loginForm.form.invalid" class="btn btn-primary btn-block mb-4">
-                    Login
-                  </button>
+
+                  <div class="d-grid gap-2 col-6 mx-auto">
+                   
+                    <button [disabled]="loginForm.form.invalid" class="btn btn_primary btn-dark btn-lg btn-block">
+                      Login
+                    </button>
+                  </div>
+
+                  <br>
+
+                  <a class="small text-muted" href="#!">Password dimenticata?</a>
+                  <p class="mb-5 pb-lg-2" style="color: #393f81;">Non hai un account? <a href="#!"
+                      style="color: #393f81;">Registrati qui</a></p>
+                  <a href="#!" class="small text-muted">Termini d'uso.</a>
+                  <br>
+                  <a href="#!" class="small text-muted">Privacy policy</a>
                 </form>
+
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
-</main>
+  </div>
+</section>
+

@@ -1,5 +1,6 @@
 import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import Peer from 'peerjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-videocall-pj',
@@ -22,8 +23,8 @@ export class VideocallPJComponent {
 
   constructor(private renderer: Renderer2) {
     this.peer = new Peer({
-      host: 'localhost',
-      port: 9000,
+      host: environment.apiLocation,
+      port: 8080,
       path: '/connect',
     });
 

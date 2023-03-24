@@ -7,18 +7,25 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
+import { WebRTCComponent } from './web-rtc/web-rtc.component';
+import { NgxWebrtcModule } from 'ngx-webrtc';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    ProfileComponent
+    ProfileComponent,
+    WebRTCComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxWebrtcModule.forRoot({
+      userIdentifier: 'id',
+      debug: true
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

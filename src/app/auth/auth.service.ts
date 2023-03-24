@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 import { Md5 } from 'ts-md5';
 
 @Injectable({
@@ -23,7 +24,7 @@ export class AuthService {
   auth(email: string, password: string) {
     let body = { email: email, password: new Md5().appendStr(password).end() }
 
-    this.httpClient.post<any>("http://localhost:8080/login", body).subscribe(resp => {
+    this.httpClient.post<any>("https://" + environment.apiLocation + ":8080" + "/login", body).subscribe(resp => {
       if(resp.status == 200) {
         this.isLoggedIn = true
         this.bearerToken = resp.token

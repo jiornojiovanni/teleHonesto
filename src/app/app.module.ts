@@ -9,13 +9,15 @@ import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { WebRTCComponent } from './web-rtc/web-rtc.component';
 import { NgxWebrtcModule } from 'ngx-webrtc';
+import { VideocallPJComponent } from './videocall-pj/videocall-pj.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     ProfileComponent,
-    WebRTCComponent
+    WebRTCComponent,
+    VideocallPJComponent
   ],
   imports: [
     BrowserModule,

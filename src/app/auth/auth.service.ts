@@ -21,19 +21,20 @@ export class AuthService {
     return this.bearerToken
   }
 
+  setToken(token: string) {
+    this.bearerToken = token
+  }
+
   auth(email: string, password: string) {
     let body = { email: email, password: new Md5().appendStr(password).end() }
-
-    this.httpClient.post<any>("https://" + environment.apiLocation + ":8080" + "/login", body).subscribe(resp => {
-      if(resp.status == 200) {
-        this.isLoggedIn = true
-        this.bearerToken = resp.token
-        this.router.navigate(['profile'])
-      }
-    })
+    return this.httpClient.post<any>("https://" + environment.apiLocation + ":8080" + "/login", body)
   }
 
   logout() {
     this.isLoggedIn = false;
+  }
+
+  login() {
+    this.isLoggedIn = true
   }
 }

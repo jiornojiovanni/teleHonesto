@@ -14,7 +14,7 @@
                 <form #loginForm="ngForm" (submit)="submit()">
 
                   <div class="d-flex align-items-center mb-3 pb-1">
-                    
+
                     <span class="h1 fw-bold mb-0">Honesto</span>
                   </div>
 
@@ -24,27 +24,27 @@
                     <label class="form-label" for="form2Example17">Email</label>
                     <input type="email" id="emailField" class="form-control form-control-lg" name="email" [(ngModel)]="email" placeholder="Inserisci Email" required
                     #emailInput="ngModel" />
-                    
-                   
+
+
                   </div>
 
                   <div class="form-outline mb-4">
-                    
+
                     <label class="form-label" for="form2Example27">Password</label>
                     <input type="password" id="passwordField" class="form-control form-control-lg" name="password" placeholder="Inserisci password"
                       [(ngModel)]="password" required />
-                    
+
                   </div>
 
                   <div class="d-grid gap-2 col-6 mx-auto">
-                   
+
                     <button [disabled]="loginForm.form.invalid" class="btn btn_primary btn-dark btn-lg btn-block">
                       Login
                     </button>
                   </div>
 
                   <br>
-
+                  <p *ngIf="showError" style="color: red;">Email o password errate</p>
                   <a class="small text-muted" href="#!">Password dimenticata?</a>
                   <p class="mb-5 pb-lg-2" style="color: #393f81;">Non hai un account? <a href="#!"
                       style="color: #393f81;">Registrati qui</a></p>

@@ -10,11 +10,20 @@ import { AuthService } from '../auth/auth.service';
 export class LoginComponent {
   email: any;
   password: any;
+  showError: any = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   submit() {
-    this.authService.auth(this.email, this.password)
+    this.authService.auth(this.email, this.password).subscribe(resp => {
+      if(resp.status == 200) {
+        this.authService.login()
+        this.authService.setToken(resp.token)
+        this.router.navigate(['profile'])
+      } else {
+        this.showError = true
+      }
+    })
   }
 
 }

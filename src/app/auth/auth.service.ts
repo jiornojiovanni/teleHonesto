@@ -27,7 +27,9 @@ export class AuthService {
 
   auth(email: string, password: string) {
     const body = { email: email, password: new Md5().appendStr(password).end() };
-    return this.httpClient.post<any>("https://" + environment.apiLocation + ":8080" + "/login", body);
+    return this.httpClient.post<any>("https://" + environment.apiLocation + ":8080" + "/login", body, {
+      observe: 'response'
+    });
   }
 
   logout() {

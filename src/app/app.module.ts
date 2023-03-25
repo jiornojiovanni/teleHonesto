@@ -8,13 +8,15 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { VideocallPJComponent } from './videocall-pj/videocall-pj.component';
+import { VisitListComponent } from './visit/visit-list/visit-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     ProfileComponent,
-    VideocallPJComponent
+    VideocallPJComponent,
+    VisitListComponent
   ],
   imports: [
     BrowserModule,

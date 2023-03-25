@@ -18,7 +18,7 @@ export class LoginComponent {
     this.authService.auth(this.email, this.password).subscribe(resp => {
       if(resp.status == 200) {
         this.authService.login();
-        this.authService.setToken(resp.token);
+        this.authService.setToken(resp.body.token);
         this.router.navigate(['profile']);
       } else {
         this.showError = true;

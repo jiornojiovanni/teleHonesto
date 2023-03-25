@@ -1,3 +1,29 @@
-Benvenuto {{user?.name}} {{user?.surname}}
-<a routerLink="/pocPJ"><p>POC PeerJS</p></a>
-<a (click)="onLogout()" routerLink="/"><p>Logout</p></a>
+Benvenuto {{user.name}} {{user.surname}}
+<a routerLink="/pocPJ">
+  <p>POC PeerJS</p>
+</a>
+<a (click)="onLogout()" routerLink="/">
+  <p>Logout</p>
+</a>
+
+<form (ngSubmit)="onSubmit()" #Visitform="ngForm">
+  <label for="nomeVisita">Nome della visita</label>
+  <input type="text" name="nomeVisita" id="nomeVisita" required [(ngModel)]="visit.visitName"><br>
+
+  <label for="dataVisita">Data programmata della visita</label>
+  <input type="date" name="dataVisita" id="dataVisita" required [(ngModel)]="visit.visitDate"><br>
+
+  <label for="oraVisita">Ora programmata della visita</label>
+  <input type="time" name="oraVisita" id="oraVisita" required [(ngModel)]="visit.visitTime"><br>
+
+  <label for="emailPartecipante">Email del paziente</label>
+  <input type="email" name="emailPartecipante" id="emailPartecipante" required [(ngModel)]="visit.visitEmail"><br>
+
+  <button type="submit" [disabled]="Visitform.form.invalid">
+    Invio
+  </button>
+
+  <label *ngIf="success">Visita creata con successo!</label>
+</form>
+
+<app-visit-list></app-visit-list>

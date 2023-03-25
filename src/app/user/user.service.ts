@@ -21,6 +21,7 @@ export class UserService {
 
     return this.httpClient.get<any>("https://" + environment.apiLocation + ":8080" + '/user', {
       headers: reqHeader,
+      observe: 'response'
     });
   }
 }

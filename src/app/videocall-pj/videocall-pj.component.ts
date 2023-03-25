@@ -26,6 +26,7 @@ export class VideocallPJComponent {
       host: environment.apiLocation,
       port: 8080,
       path: '/connect',
+      secure: true
     });
 
     this.setupForCall();
@@ -40,9 +41,7 @@ export class VideocallPJComponent {
     const othercall = this.peer.call(peerId, stream);
 
     othercall.on('stream', (remoteStream) => {
-      const video = this.videoElement.nativeElement;
-      this.renderer.setProperty(video, 'srcObject', remoteStream);
-      video.play();
+      this.showVideoStream(remoteStream);
     });
   }
 
@@ -56,10 +55,14 @@ export class VideocallPJComponent {
       call.answer(stream);
 
       call.on('stream', (remoteStream) => {
-        const video = this.videoElement.nativeElement;
-        this.renderer.setProperty(video, 'srcObject', remoteStream);
-        video.play();
+        this.showVideoStream(remoteStream);
       });
     });
+  }
+
+  private showVideoStream(remoteStream: MediaStream) {
+    const video = this.videoElement.nativeElement;
+    this.renderer.setProperty(video, 'srcObject', remoteStream);
+    video.play();
   }
 }

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
@@ -23,6 +23,13 @@ export class AuthService {
 
   setToken(token: string) {
     this.bearerToken = token;
+  }
+
+  getHeaderWithBearer() {
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.getToken(),
+    });
   }
 
   auth(email: string, password: string) {

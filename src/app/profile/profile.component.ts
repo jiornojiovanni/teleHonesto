@@ -17,7 +17,6 @@ export class ProfileComponent implements OnInit {
 
   constructor(private authService: AuthService, private userService: UserService, private visitService: VisitService) {}
 
-
   ngOnInit() {
     this.userService.getUserData().subscribe(resp => {
       if(resp.status == 200) {

@@ -11,10 +11,7 @@ export class VisitService {
   constructor(private authService: AuthService, private httpClient: HttpClient) { }
 
   getVisitList() {
-    const reqHeader = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.authService.getToken(),
-    });
+    const reqHeader = this.authService.getHeaderWithBearer();
 
     return this.httpClient.get<any>("https://" + environment.apiLocation + ":8080" + '/visit',{
       headers: reqHeader,
@@ -23,14 +20,13 @@ export class VisitService {
   }
 
   createVisit(visit: Visit) {
-    const reqHeader = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.authService.getToken(),
-    });
+    const reqHeader = this.authService.getHeaderWithBearer();
 
     return this.httpClient.put<any>("https://" + environment.apiLocation + ":8080" + '/visit', visit,{
       headers: reqHeader,
       observe: 'response'
     });
   }
+
+  
 }

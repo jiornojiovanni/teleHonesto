@@ -9,14 +9,18 @@ import { VisitService } from '../visit.service';
 })
 export class VisitListComponent implements OnInit {
   visitList: any;
+  displayedColumns: string[] = ['data', 'ora', "link"];
 
   constructor(private visitService: VisitService) {}
 
   ngOnInit() {
+    this.refreshList();
+  }
+
+  refreshList() {
     this.visitService.getVisitList().subscribe(resp => {
       if(resp.status == 200 && resp.body != null) {
         this.visitList = resp.body;
-        console.log(this.visitList);
       }
     });
   }

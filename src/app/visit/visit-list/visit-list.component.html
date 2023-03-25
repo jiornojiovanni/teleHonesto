@@ -1,4 +1,20 @@
-<div *ngFor="let item of visitList">
-  <p>{{item.ora_programmata}}</p>
-  <p>{{item.data_programmata}}</p>
-</div>
+<button mat-raised-button (click)="refreshList()">Aggiorna lista</button>
+<table mat-table [dataSource]="visitList" class="mat-elevation-z8">
+  <ng-container matColumnDef="data">
+    <th mat-header-cell *matHeaderCellDef>Data</th>
+    <td mat-cell *matCellDef="let visita">{{ visita.data_programmata | date:'shortDate' }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="ora">
+    <th mat-header-cell *matHeaderCellDef>Ora</th>
+    <td mat-cell *matCellDef="let visita">{{ visita.ora_programmata }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="link">
+    <th mat-header-cell *matHeaderCellDef>Link</th>
+    <td mat-cell *matCellDef="let visita"><a [href]="" target="_blank">Unisciti</a></td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

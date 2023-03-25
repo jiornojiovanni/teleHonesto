@@ -1,4 +1,4 @@
-import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
+import { Component, Renderer2, ViewChild } from '@angular/core';
 import Peer from 'peerjs';
 import { environment } from 'src/environments/environment';
 
@@ -36,13 +36,13 @@ export class VideocallPJComponent {
   }
 
   async call(peerId: string) {
-    let stream = await this.getMediaStream();
-    let othercall = this.peer.call(peerId, stream);
+    const stream = await this.getMediaStream();
+    const othercall = this.peer.call(peerId, stream);
 
     othercall.on('stream', (remoteStream) => {
       const video = this.videoElement.nativeElement;
       this.renderer.setProperty(video, 'srcObject', remoteStream);
-      video.play()
+      video.play();
     });
   }
 
@@ -52,13 +52,13 @@ export class VideocallPJComponent {
 
   setupForCall() {
     this.peer.on('call', async (call) => {
-      let stream = await this.getMediaStream();
+      const stream = await this.getMediaStream();
       call.answer(stream);
 
       call.on('stream', (remoteStream) => {
         const video = this.videoElement.nativeElement;
         this.renderer.setProperty(video, 'srcObject', remoteStream);
-        video.play()
+        video.play();
       });
     });
   }

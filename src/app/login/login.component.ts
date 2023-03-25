@@ -17,13 +17,13 @@ export class LoginComponent {
   submit() {
     this.authService.auth(this.email, this.password).subscribe(resp => {
       if(resp.status == 200) {
-        this.authService.login()
-        this.authService.setToken(resp.token)
-        this.router.navigate(['profile'])
+        this.authService.login();
+        this.authService.setToken(resp.token);
+        this.router.navigate(['profile']);
       } else {
-        this.showError = true
+        this.showError = true;
       }
-    })
+    });
   }
 
 }

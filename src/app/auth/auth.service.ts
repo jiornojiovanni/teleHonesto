@@ -8,26 +8,26 @@ import { Md5 } from 'ts-md5';
   providedIn: 'root'
 })
 export class AuthService {
-  private isLoggedIn = false
-  private bearerToken = ""
+  private isLoggedIn = false;
+  private bearerToken = "";
 
   constructor(private httpClient: HttpClient, private router: Router) { }
 
   isAuthenticated() {
-    return this.isLoggedIn
+    return this.isLoggedIn;
   }
 
   getToken() {
-    return this.bearerToken
+    return this.bearerToken;
   }
 
   setToken(token: string) {
-    this.bearerToken = token
+    this.bearerToken = token;
   }
 
   auth(email: string, password: string) {
-    let body = { email: email, password: new Md5().appendStr(password).end() }
-    return this.httpClient.post<any>("https://" + environment.apiLocation + ":8080" + "/login", body)
+    const body = { email: email, password: new Md5().appendStr(password).end() };
+    return this.httpClient.post<any>("https://" + environment.apiLocation + ":8080" + "/login", body);
   }
 
   logout() {
@@ -35,6 +35,6 @@ export class AuthService {
   }
 
   login() {
-    this.isLoggedIn = true
+    this.isLoggedIn = true;
   }
 }

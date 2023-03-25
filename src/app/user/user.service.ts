@@ -14,7 +14,7 @@ export class UserService {
   ) {}
 
   getUserData() {
-    var reqHeader = new HttpHeaders({
+    const reqHeader = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.authService.getToken(),
     });

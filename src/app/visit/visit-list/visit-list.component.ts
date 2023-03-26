@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Visit } from 'src/app/visit';
+import { Component, Input, OnInit } from '@angular/core';
 import { VisitService } from '../visit.service';
 
 @Component({
@@ -8,6 +7,7 @@ import { VisitService } from '../visit.service';
   styleUrls: ['./visit-list.component.scss']
 })
 export class VisitListComponent implements OnInit {
+  @Input() id_persona: number | undefined;
   visitList: any;
   displayedColumns: string[] = ['data', 'ora', "link"];
 

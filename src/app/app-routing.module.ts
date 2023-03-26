@@ -8,7 +8,7 @@ import { VideocallPJComponent } from './videocall-pj/videocall-pj.component';
 const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
-  { path: 'pocPJ', component: VideocallPJComponent, canActivate: [AuthGuard]}
+  { path: 'pocPJ/:visitId', component: VideocallPJComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

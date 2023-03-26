@@ -12,7 +12,7 @@
 
   <ng-container matColumnDef="link">
     <th mat-header-cell *matHeaderCellDef>Link</th>
-    <td mat-cell *matCellDef="let visita"><a [href]="" target="_blank">Unisciti</a></td>
+    <td mat-cell *matCellDef="let visita"><a [routerLink]="['/pocPJ', visita.id_visita]">Unisciti</a></td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

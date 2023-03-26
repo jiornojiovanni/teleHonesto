@@ -26,4 +26,4 @@ Benvenuto {{user.name}} {{user.surname}}
   <label *ngIf="success">Visita creata con successo!</label>
 </form>
 
-<app-visit-list></app-visit-list>
+<app-visit-list [id_persona]="user.id_persona"></app-visit-list>

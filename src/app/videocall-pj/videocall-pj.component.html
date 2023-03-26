@@ -1,4 +1,16 @@
-<input type="text" [(ngModel)]="peerId">
-<button (click)="startCall()"></button>
-<p>{{getId()}}</p>
-<video #videoElement width="1280" height="720"></video>
+<main>
+    <div id="local-video">
+        <video #localVideo></video>
+        <div class="overlay">
+          <button class="toggle-mute">Mute</button>
+          <button class="toggle-video">Video</button>
+        </div>
+      </div>
+      <div id="remote-videos">
+        <video #remoteVideo></video>
+      </div>
+      <div id="controls">
+        <button id="start-call" (click)="startCall()">Start Call</button>
+        <button id="end-call" (click)="endCall()">End Call</button>
+      </div>
+</main>

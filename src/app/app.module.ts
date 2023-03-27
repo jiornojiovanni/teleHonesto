@@ -11,6 +11,8 @@ import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { VideocallPJComponent } from './videocall-pj/videocall-pj.component';
 import { VisitListComponent } from './visit/visit-list/visit-list.component';
+import { NgxWebrtcModule } from 'ngx-webrtc';
+import { WebrtcComponent } from './webrtc/webrtc.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { VisitListComponent } from './visit/visit-list/visit-list.component';
     LoginComponent,
     ProfileComponent,
     VideocallPJComponent,
-    VisitListComponent
+    VisitListComponent,
+    WebrtcComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +30,11 @@ import { VisitListComponent } from './visit/visit-list/visit-list.component';
     HttpClientModule,
     MatTableModule,
     MatButtonModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxWebrtcModule.forRoot({
+      userIdentifier: 'id',
+      debug: true
+    })
   ],
   exports: [
     MatTableModule,

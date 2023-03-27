@@ -14,7 +14,7 @@ export class WebrtcComponent implements OnInit {
   @ViewChild('videoElement', { static: false }) videoElement!: ElementRef;
 
   constructor(private callService: CallService, private streamService: StreamService) {
-    this.socket = io.io("https://192.168.178.64:8080");
+    this.socket = io.io("ws://localhost:5000");
   }
 
   async ngOnInit() {
@@ -37,9 +37,9 @@ export class WebrtcComponent implements OnInit {
     this.peerClient.signalingMessage.subscribe((m: any) => {
       this.socket.emit('message', m);
     });
-    
+
     this.socket.on('start', async m => {
-      let state = this.peerClient.startAsCallee();
+      this.peerClient.startAsCallee();
       const stream = await this.streamService.tryGetUserMedia();
       this.peerClient.addStream(stream);
     });
@@ -52,8 +52,8 @@ export class WebrtcComponent implements OnInit {
     });
 
     this.peerClient.negotiationNeededTriggered.subscribe(() => {
-      this.peerClient.createOffer()
-    })
+      this.peerClient.createOffer();
+    });
   }
 
   async click() {
@@ -61,6 +61,6 @@ export class WebrtcComponent implements OnInit {
     const stream = await this.streamService.tryGetUserMedia();
     this.peerClient.addStream(stream);
     this.callService.start();
-    let state = this.peerClient.startAsCaller();
+    this.peerClient.startAsCaller();
   }
 }

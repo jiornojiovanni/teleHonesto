@@ -13,6 +13,12 @@
   <ng-container matColumnDef="link">
     <th mat-header-cell *matHeaderCellDef>Link</th>
     <td mat-cell *matCellDef="let visita"><a [routerLink]="['/pocPJ', visita.id_visita]">Unisciti</a></td>
+   
+  </ng-container>
+  <ng-container matColumnDef="WebRTC">
+    <th mat-header-cell *matHeaderCellDef>WebRTC</th>
+    
+    <td mat-cell *matCellDef="let visita"><a [routerLink]="['/WebRTC', visita.id_visita]">Unisciti</a></td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

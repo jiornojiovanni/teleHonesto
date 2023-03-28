@@ -32,7 +32,7 @@ export class VideocallPJComponent implements OnDestroy {
           });
         this.setupForCall();
 
-        this.peer.on('error', err => {
+        this.peer.on('error', (err: any) => {
           console.log(err);
         });
 
@@ -71,14 +71,13 @@ export class VideocallPJComponent implements OnDestroy {
     const stream = await this.getMediaStream();
     this.mediaConnection = this.peer.call(peerId, stream);
 
-    this.mediaConnection.on('stream', (remoteStream) => {
+    this.mediaConnection.on('stream', (remoteStream: MediaStream) => {
       this.showVideoStream(remoteStream);
     });
 
     this.mediaConnection.on('close', () => {
-      console.log("close del caller");
       this.remoteVideo.nativeElement.pause();
-      this.remoteVideo.nativeElement.removeAttribute('src'); // empty source
+      this.remoteVideo.nativeElement.removeAttribute('src');
       this.remoteVideo.nativeElement.load();
       this.startCallVisible = true;
     });
@@ -89,21 +88,20 @@ export class VideocallPJComponent implements OnDestroy {
   }
 
   setupForCall() {
-    this.peer.on('call', async (call) => {
+    this.peer.on('call', async (call: MediaConnection) => {
       const stream = await this.getMediaStream();
       this.mediaConnection = call;
       this.mediaConnection.answer(stream);
 
-      this.mediaConnection.on('stream', (remoteStream) => {
+      this.mediaConnection.on('stream', (remoteStream: MediaStream) => {
         this.showVideoStream(remoteStream);
       });
 
       this.mediaConnection.on('close', () => {
-      console.log("close del callee");
-
         this.remoteVideo.nativeElement.pause();
-        this.remoteVideo.nativeElement.removeAttribute('src'); // empty source
+        this.remoteVideo.nativeElement.removeAttribute('src');
         this.remoteVideo.nativeElement.load();
+        this.startCallVisible = true;
       });
 
       this.startCallVisible = false;

@@ -10,7 +10,21 @@
         <video #remoteVideo></video>
       </div>
       <div id="controls">
+        <p *ngIf="showError">{{error}}</p>
+        <p *ngIf="showLoading">Chiamata in corso...</p>
         <button *ngIf="startCallVisible" id="start-call" (click)="startCall()">Start Call</button>
         <button *ngIf="!startCallVisible" id="end-call" (click)="endCall()">End Call</button>
       </div>
+
+      <form *ngIf="showForm">
+        <mat-form-field>
+          <mat-label>Titolo</mat-label>
+          <input matInput placeholder="Inserisci il titolo">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Corpo del testo</mat-label>
+          <textarea matInput placeholder="Inserisci il corpo del testo" rows="6"></textarea>
+        </mat-form-field>
+      </form>
 </main>

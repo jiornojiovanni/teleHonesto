@@ -17,6 +17,7 @@ export class VideocallPJComponent implements OnDestroy {
 
   peer!: Peer;
   mediaConnection!: MediaConnection;
+  startCallVisible = true;
 
   constructor(private renderer: Renderer2, private userService: UserService, private visitService: VisitService, private activatedRoute: ActivatedRoute) {
     userService.getUserData().subscribe(resp => {
@@ -52,12 +53,14 @@ export class VideocallPJComponent implements OnDestroy {
     this.visitService.getVisitPartecipants(this.activatedRoute.snapshot.params["visitId"]).subscribe(resp => {
       if(resp.status == 200) {
         this.call("peer" + resp.body.fk_persona);
+        this.startCallVisible = false;
       }
     });
   }
 
   endCall() {
     this.mediaConnection.close();
+    this.startCallVisible = true;
   }
 
   getPeerId() {
@@ -77,6 +80,7 @@ export class VideocallPJComponent implements OnDestroy {
       this.remoteVideo.nativeElement.pause();
       this.remoteVideo.nativeElement.removeAttribute('src'); // empty source
       this.remoteVideo.nativeElement.load();
+      this.startCallVisible = true;
     });
   }
 
@@ -101,6 +105,8 @@ export class VideocallPJComponent implements OnDestroy {
         this.remoteVideo.nativeElement.removeAttribute('src'); // empty source
         this.remoteVideo.nativeElement.load();
       });
+
+      this.startCallVisible = false;
     });
   }
 

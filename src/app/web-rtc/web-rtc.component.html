@@ -1,3 +1,28 @@
-<video #localVideo playsinline autoplay muted></video>
-<video #remoteVideo playsinline autoplay></video>
-
+<body>
+<div id="container">
+  <div class="video" *ngIf="started">
+    <video #remoteVideo playsinline autoplay></video>
+    <audio #audioStreamNode></audio>
+  </div>
+  <div class="video" *ngIf="!started">
+    <video #localVideo playsinline autoplay></video>
+  </div>
+  <div class="controls" *ngIf="!started">
+    <button id="call" (click)="startCall()" class="control-button">
+      <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M830 968q-145 0-279-61.5T314 742Q211 639 149.5 504.5T88 224q0-20 11-31t31-11h200q14 0 26 9.5t14 22.5l30 170q2 13-.5 24t-9.5 18L284 534q38 64 100 127.5T512 766l110-106q8-8 18-11t20-1l178 38q14 3 24 14t10 24v202q0 20-11 31t-31 11Z"></path></svg>
+    </button>
+  </div>
+  <div id="local-video" *ngIf="started"><video #localVideo playsinline autoplay></video></div>
+  <div class="controls" *ngIf="started">
+    <button id="mute-button" (click)="muted()" class="control-button">
+      <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="m755 712-78-76q5-13 10-27t7-30q3-20 16.5-32.5T743 534q26 0 43 18t13 42q-5 33-15.5 63T755 712ZM617 574 339 296v-4q0-59 41.5-100.5T481 150q59 0 100.5 41.5T623 292v252q0 11-1.5 17.5T617 574Zm136 399L77 298q-16-16-16-37.5T77 223q16-16 37.5-16t37.5 16l676 676q16 16 16 37t-16 37q-16 16-37.5 16T753 973Zm-326-56v-67q-94-13-170.5-83.5T166 600q-5-28 8.5-47t45.5-19q17 0 31 12.5t19 32.5q16 73 74.5 121T481 748q42 0 78-14t65-39l76 76q-34 32-76 52t-91 27v67q0 22-15.5 37.5T480 970q-22 0-37.5-15.5T427 917Z"/></svg>
+    </button>
+    <button id="disable-video-button" (click)="disablevideo()" class="control-button">
+      <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M822 1059 11 248q-15-15-15-36t16-37q15-15 37-15t37 15l811 811q15 15 15 36t-16 37q-15 15-37 15t-37-15Zm-85-349L253 226h378q44 0 75 31t31 75v165l146-146q12-12 28-5.5t16 23.5v408q0 17-16 23.5t-28-5.5L737 649v61ZM138 227l598 598q0 41-32 71t-73 30H142q-44 0-75-31t-31-75V333q0-41 30-73.5t72-32.5Z"/></svg>
+    </button>
+    <button id="hang-up-button" (click)="endCall()" class="control-button" >
+      <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M481 398q125 0 243 50t210 148q15 17 16 37t-16 37l-94 92q-14 14-32.5 15T772 766l-119-90q-10-8-15.5-18.5T632 634V526q-33-11-70.5-16.5T481 504q-42 0-80 5.5T330 526v108q0 13-5.5 23.5T309 676l-119 90q-17 12-35.5 11T122 762l-94-92q-17-17-16-37t16-37q91-98 210.5-148T481 398Z"/></svg>
+    </button>
+  </div>
+</div>
+</body>

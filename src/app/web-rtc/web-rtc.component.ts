@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild, OnInit, OnDestroy, ComponentRef } fro
 import { CallService, DeviceService, PeerConnectionClient, PeerConnectionClientSettings, StreamService, StreamType } from 'ngx-webrtc';
 import { first } from 'rxjs/operators';
 import { io, Socket } from "socket.io-client";
-
+import { environment } from 'src/environments/environment';
 export enum MessageType {
   Server = 'server',
   Text = 'text',
@@ -44,7 +44,7 @@ export class WebRTCComponent implements OnInit, OnDestroy {
     private deviceService: DeviceService,
     private streamService: StreamService,
   ) {
-    this.socket = io('https://localhost:8080');
+    this.socket = io("https://" + environment.apiLocation + ":8080");
   }
  
   private onLocalStream(stream: MediaStream): void {

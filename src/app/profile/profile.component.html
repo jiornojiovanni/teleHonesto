@@ -6,10 +6,7 @@ Benvenuto {{user.name}} {{user.surname}}
   <p>Logout</p>
 </a>
 
-<form (ngSubmit)="onSubmit()" #Visitform="ngForm">
-  <label for="nomeVisita">Nome della visita</label>
-  <input type="text" name="nomeVisita" id="nomeVisita" required [(ngModel)]="visit.visitName"><br>
-
+<form (ngSubmit)="onSubmit()" #Visitform="ngForm" *ngIf="user.tipo==='medico'">
   <label for="dataVisita">Data programmata della visita</label>
   <input type="date" name="dataVisita" id="dataVisita" required [(ngModel)]="visit.visitDate"><br>
 

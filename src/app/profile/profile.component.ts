@@ -11,7 +11,7 @@ import { VisitService } from '../visit/visit.service';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-  user: User = new User('', '', '', 0);
+  user: User = new User('', '', '', 0, '');
   visit = new Visit('', '', '', '');
   success = false;
 
@@ -20,7 +20,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.userService.getUserData().subscribe(resp => {
       if(resp.status == 200) {
-        this.user = new User(resp.body.nome, resp.body.cognome, resp.body.email, resp.body.id_persona);
+        this.user = new User(resp.body.nome, resp.body.cognome, resp.body.email, resp.body.id_persona, resp.body.tipo);
       }
     });
   }

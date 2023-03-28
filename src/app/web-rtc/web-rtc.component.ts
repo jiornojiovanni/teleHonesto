@@ -7,6 +7,7 @@ import { io, Socket } from "socket.io-client";
 import { UserService } from '../user/user.service';
 import { VisitService } from '../visit/visit.service';
 
+import { environment } from 'src/environments/environment';
 export enum MessageType {
   Server = 'server',
   Text = 'text',
@@ -56,7 +57,7 @@ export class WebRTCComponent implements OnDestroy , OnInit{
     private activatedRoute: ActivatedRoute,
     private userService: UserService
   ) {
-    this.socket = io('https://localhost:8080');
+    this.socket = io("https://" + environment.apiLocation + ":8080");
   }
   
   ngOnInit(): void {

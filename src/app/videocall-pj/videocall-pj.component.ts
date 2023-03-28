@@ -1,4 +1,4 @@
-import { Component, OnDestroy, Renderer2, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import Peer, { MediaConnection } from 'peerjs';
 import { environment } from 'src/environments/environment';
@@ -18,6 +18,12 @@ export class VideocallPJComponent implements OnDestroy {
   peer!: Peer;
   mediaConnection!: MediaConnection;
 
+  startCallVisible = true;
+  showForm = false;
+  showError = false;
+  error = "";
+  showLoading = false;
+
   constructor(private renderer: Renderer2, private userService: UserService, private visitService: VisitService, private activatedRoute: ActivatedRoute) {
     userService.getUserData().subscribe(resp => {
       if (resp.status == 200) {
@@ -29,17 +35,12 @@ export class VideocallPJComponent implements OnDestroy {
             path: '/connect',
             secure: true
           });
+
+        if (resp.body.tipo == "medico") {
+          this.showForm = true;
+        }
         this.setupForCall();
 
-        this.peer.on('error', err => {
-          console.log(err);
-        });
-
-        this.getMediaStream().then(stream => {
-          const video = this.localVideo.nativeElement;
-          this.renderer.setProperty(video, 'srcObject', stream);
-          video.play();
-        });
       }
     });
   }
@@ -50,14 +51,17 @@ export class VideocallPJComponent implements OnDestroy {
 
   startCall() {
     this.visitService.getVisitPartecipants(this.activatedRoute.snapshot.params["visitId"]).subscribe(resp => {
-      if(resp.status == 200) {
+      if (resp.status == 200) {
         this.call("peer" + resp.body.fk_persona);
+        this.showLoading = true;
+        this.showError = false;
       }
     });
   }
 
   endCall() {
     this.mediaConnection.close();
+    this.startCallVisible = true;
   }
 
   getPeerId() {
@@ -68,15 +72,14 @@ export class VideocallPJComponent implements OnDestroy {
     const stream = await this.getMediaStream();
     this.mediaConnection = this.peer.call(peerId, stream);
 
-    this.mediaConnection.on('stream', (remoteStream) => {
+    this.mediaConnection.on('stream', (remoteStream: MediaStream) => {
+      this.startCallVisible = false;
+      this.showLoading = false;
       this.showVideoStream(remoteStream);
     });
 
     this.mediaConnection.on('close', () => {
-      console.log("close del caller");
-      this.remoteVideo.nativeElement.pause();
-      this.remoteVideo.nativeElement.removeAttribute('src'); // empty source
-      this.remoteVideo.nativeElement.load();
+      this.stopRemoteVideo();
     });
   }
 
@@ -85,23 +88,43 @@ export class VideocallPJComponent implements OnDestroy {
   }
 
   setupForCall() {
-    this.peer.on('call', async (call) => {
+    this.getMediaStream().then(stream => {
+      const video = this.localVideo.nativeElement;
+      this.renderer.setProperty(video, 'srcObject', stream);
+      video.play();
+    });
+
+    this.peer.on('error', (err: any) => {
+      console.log(err.type);
+      this.showError = true;
+      this.showLoading = false;
+      if(err.type == 'peer-unavailable')
+        this.error = "Utente non disponibile.";
+      else
+        this.error = "Errore, errore!";
+    });
+
+    this.peer.on('call', async (call: MediaConnection) => {
       const stream = await this.getMediaStream();
       this.mediaConnection = call;
       this.mediaConnection.answer(stream);
+      this.startCallVisible = false;
 
-      this.mediaConnection.on('stream', (remoteStream) => {
+      this.mediaConnection.on('stream', (remoteStream: MediaStream) => {
         this.showVideoStream(remoteStream);
       });
 
       this.mediaConnection.on('close', () => {
-      console.log("close del callee");
-
-        this.remoteVideo.nativeElement.pause();
-        this.remoteVideo.nativeElement.removeAttribute('src'); // empty source
-        this.remoteVideo.nativeElement.load();
+        this.stopRemoteVideo();
       });
     });
+  }
+
+  private stopRemoteVideo() {
+    this.remoteVideo.nativeElement.pause();
+    this.remoteVideo.nativeElement.removeAttribute('src');
+    this.remoteVideo.nativeElement.load();
+    this.startCallVisible = true;
   }
 
   private showVideoStream(remoteStream: MediaStream) {

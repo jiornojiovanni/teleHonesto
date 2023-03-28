@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   { path: 'pocPJ/:visitId', component: VideocallPJComponent, canActivate: [AuthGuard]},
-  { path: 'WebRTC', component: WebRTCComponent, canActivate: [AuthGuard]}
+  { path: 'WebRTC/:visitId', component: WebRTCComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

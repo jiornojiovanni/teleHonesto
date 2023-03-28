@@ -1,7 +1,11 @@
 import { Component, ElementRef, ViewChild, OnInit, OnDestroy, ComponentRef } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { DefaultEventsMap } from '@socket.io/component-emitter';
 import { CallService, DeviceService, PeerConnectionClient, PeerConnectionClientSettings, StreamService, StreamType } from 'ngx-webrtc';
 import { first } from 'rxjs/operators';
 import { io, Socket } from "socket.io-client";
+import { UserService } from '../user/user.service';
+import { VisitService } from '../visit/visit.service';
 
 export enum MessageType {
   Server = 'server',
@@ -25,17 +29,22 @@ export interface ServerMessage extends Message {
   templateUrl: './web-rtc.component.html',
   styleUrls: ['./web-rtc.component.scss']
 })
-export class WebRTCComponent implements OnInit, OnDestroy {
+export class WebRTCComponent implements OnDestroy , OnInit{
 
  
   @ViewChild('localVideo', { static: false }) localStreamNode!: ElementRef;
   @ViewChild('remoteVideo', { static: false }) remoteStreamNode!: ElementRef;
+  @ViewChild('audioStreamNode', { static: false }) public audioStreamNode!: ElementRef;
  
   public pclients: {connection: PeerConnectionClient}[] = [];
   private socket: Socket;
 
   private isInitiator = false;
   private localStream: MediaStream | null = null;
+  private room: Socket<DefaultEventsMap, DefaultEventsMap> | undefined;
+  private mute= false;
+  private visible= false;
+  started =false;
 
   
   
@@ -43,17 +52,46 @@ export class WebRTCComponent implements OnInit, OnDestroy {
     private callService: CallService,
     private deviceService: DeviceService,
     private streamService: StreamService,
+    private visitService: VisitService,
+    private activatedRoute: ActivatedRoute,
+    private userService: UserService
   ) {
     this.socket = io('https://localhost:8080');
   }
+  
+  ngOnInit(): void {
+    this.room =this.activatedRoute.snapshot.params["visitId"];
+    this.deviceService.tryGetMedia(this.onLocalStream.bind(this), this.onNoStream.bind(this));
+  }
+  muted(): void {
+    
+    if(this.mute){
+      this.streamService.enableLocalTrack(StreamType.Audio);
+      this.mute=!this.mute;
+    }else{
+    this.streamService.disableLocalTrack(StreamType.Audio);
+    this.mute=!this.mute;
+    }
+  }
+  disablevideo(): void {
+    if(this.visible){
+      this.streamService.enableLocalTrack(StreamType.Video);
+      this.visible=!this.visible;
+    }else{
+    this.streamService.disableLocalTrack(StreamType.Video);
+    this.visible=!this.visible;
+    }
+  }
+
  
   private onLocalStream(stream: MediaStream): void {
     console.log("onLocalStream", stream);
-
+    this.streamService.setStreamInNode(this.localStreamNode.nativeElement, stream, true, true);
     this.streamService.setLocalStream(stream);
-
-    this.socket.emit('joined');
+    if(this.started){
+    this.socket.emit('joined', this.room);
     this.callService.start();
+    }
   }
 
   private onNoStream(): void {
@@ -61,11 +99,25 @@ export class WebRTCComponent implements OnInit, OnDestroy {
     const emptyStream = new MediaStream();
     this.streamService.setLocalStream(emptyStream);
 
-    this.socket.emit('joined');
-    this.callService.start();
   }
- 
-  async ngOnInit() {
+
+  public endCall(): void{
+    this.started=false;
+    this.callService.users$.next([]);
+    this.streamService.stopStreamInNode(this.localStreamNode);
+    this.streamService.setLocalStream(null);
+    if (this.pclients && this.pclients.length) {
+      this.pclients.forEach(client => {
+        client.connection.close();
+      });
+    }
+    this.pclients = [];
+    this.callService.updateSince();
+    this.callService.stop();
+  }
+
+  public startCall(): void {
+    this.started=true;
     this.deviceService.tryGetMedia(this.onLocalStream.bind(this), this.onNoStream.bind(this));
     const settings: PeerConnectionClientSettings = {
       peerConnectionConfig: {
@@ -76,6 +128,9 @@ export class WebRTCComponent implements OnInit, OnDestroy {
          ],
       }
     };
+      
+
+    this.socket.emit('join', this.room);
 
     this.socket.on('private-message', (message: ServerMessage) => {
       console.log('private-message', message.type);
@@ -90,7 +145,7 @@ export class WebRTCComponent implements OnInit, OnDestroy {
     this.streamService.replaceTrack$.subscribe((track: MediaStreamTrack | null) => {
       console.log('replaceTrack', track);
       if (track) {
-        if (track.kind === StreamType.Video && this.localStream?.getVideoTracks().length) {
+        if (track.kind === StreamType.Audio && this.localStream?.getAudioTracks().length || track.kind === StreamType.Video && this.localStream?.getVideoTracks().length) {
             this.pclients.forEach(async client => {
               client.connection.replaceTrack(track);
             });
@@ -100,7 +155,7 @@ export class WebRTCComponent implements OnInit, OnDestroy {
             });
         }
       } else {
-        // this.log('WARNING: track is null');
+         console.log('WARNING: track is null');
       }
     });
 
@@ -116,7 +171,7 @@ export class WebRTCComponent implements OnInit, OnDestroy {
       }
     });
 
- 
+
 
     this.socket.on('userJoinedRoom', async (data: any) => {
       console.log("userJoinedRoom",data);
@@ -143,7 +198,7 @@ export class WebRTCComponent implements OnInit, OnDestroy {
     
     
 
-    this.socket.emit('join');
+    
 
  
   }
@@ -174,7 +229,7 @@ export class WebRTCComponent implements OnInit, OnDestroy {
       console.log('signalingMessage');
       setTimeout(() => {
 
-        this.socket.emit('message', {
+        this.socket.emit('message',  this.room,{
           type: 'signal',
           for: '',
           message: JSON.stringify(m)
@@ -186,6 +241,9 @@ export class WebRTCComponent implements OnInit, OnDestroy {
       console.log("remoteTrackAdded");
       if (track.kind === StreamType.Video) {
         this.streamService.setStreamInNode(this.remoteStreamNode.nativeElement, track.track);
+      }
+      if (track.kind === StreamType.Audio) {
+        this.streamService.setStreamInNode(this.audioStreamNode.nativeElement, track.track, false);
       }
     });
 

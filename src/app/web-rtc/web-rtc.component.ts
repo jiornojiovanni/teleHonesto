@@ -8,6 +8,7 @@ import { UserService } from '../user/user.service';
 import { VisitService } from '../visit/visit.service';
 
 import { environment } from 'src/environments/environment';
+import { User } from '../user';
 export enum MessageType {
   Server = 'server',
   Text = 'text',
@@ -46,6 +47,9 @@ export class WebRTCComponent implements OnDestroy , OnInit{
   private mute= false;
   private visible= false;
   started =false;
+  doctor= true;
+  navOpen=false;
+  user: any;
 
   
   
@@ -57,11 +61,36 @@ export class WebRTCComponent implements OnDestroy , OnInit{
     private activatedRoute: ActivatedRoute,
     private userService: UserService
   ) {
-    this.socket = io("https://" + environment.apiLocation + ":8080");
+    this.socket = io("https://localhost:8080");
   }
-  
+   nav(): void {
+    if(this.navOpen == true){
+    this.navOpen=false;
+    const nav = document.getElementById("mySidebar");
+    const n2= document.getElementById("main");
+    nav!.style.width= '0%';
+    n2!.style.width= '100%';}
+    else{
+    this.navOpen=true;
+    const nav = document.getElementById("mySidebar");
+    const n2= document.getElementById("main");
+    nav!.style.width= '20%';
+    nav!.style.right='1%';
+    n2!.style.width= '80%';
+    }
+  }
+ 
   ngOnInit(): void {
     this.room =this.activatedRoute.snapshot.params["visitId"];
+    
+    this.userService.getUserData().subscribe(resp => {
+      if(resp.status == 200) {
+        this.user = new User(resp.body.nome, resp.body.cognome, resp.body.email, resp.body.id_persona, resp.body.tipo);
+      }
+    });
+    // if(this.user.tipo == "medico"){
+    //   this.doctor=true;
+    // }
     this.deviceService.tryGetMedia(this.onLocalStream.bind(this), this.onNoStream.bind(this));
   }
   muted(): void {
@@ -105,7 +134,7 @@ export class WebRTCComponent implements OnDestroy , OnInit{
   public endCall(): void{
     this.started=false;
     this.callService.users$.next([]);
-    this.streamService.stopStreamInNode(this.localStreamNode);
+    this.streamService.stopStreamInNode(this.localStreamNode.nativeElement);
     this.streamService.setLocalStream(null);
     if (this.pclients && this.pclients.length) {
       this.pclients.forEach(client => {
@@ -115,6 +144,7 @@ export class WebRTCComponent implements OnDestroy , OnInit{
     this.pclients = [];
     this.callService.updateSince();
     this.callService.stop();
+    
   }
 
   public startCall(): void {

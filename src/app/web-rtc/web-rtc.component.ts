@@ -66,7 +66,7 @@ export class WebRTCComponent implements OnDestroy , OnInit{
     private userService: UserService,
     private documentService: DocumentService
   ) {
-    this.socket = io("https://localhost:8080");
+    this.socket = io("https://" + environment.apiLocation + ":8080");
   }
    nav(): void {
     if(this.navOpen == true){

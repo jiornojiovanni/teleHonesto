@@ -15,6 +15,7 @@ export class VideocallPJComponent implements OnDestroy {
   @ViewChild('remoteVideo') remoteVideo?: any;
   @ViewChild('localVideo') localVideo?: any;
 
+  visitID = this.activatedRoute.snapshot.params["visitId"];
   peer!: Peer;
   mediaConnection!: MediaConnection;
 
@@ -50,7 +51,7 @@ export class VideocallPJComponent implements OnDestroy {
   }
 
   startCall() {
-    this.visitService.getVisitPartecipants(this.activatedRoute.snapshot.params["visitId"]).subscribe(resp => {
+    this.visitService.getVisitPartecipants(this.visitID).subscribe(resp => {
       if (resp.status == 200) {
         this.call("peer" + resp.body.fk_persona);
         this.showLoading = true;

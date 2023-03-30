@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { DocumentService } from '../document/document.service';
 
@@ -8,15 +8,17 @@ import { DocumentService } from '../document/document.service';
   styleUrls: ['./call-form.component.scss']
 })
 export class CallFormComponent {
+  @Input() visitID = 0;
   title = '';
   text = '';
 
   constructor(private documentService: DocumentService) {}
 
   submit() {
-    this.documentService.saveDocument(this.title, this.text).subscribe(resp => {
+    const tipoAnamnesi = 2;
+    this.documentService.saveDocument(this.title, this.text, this.visitID, tipoAnamnesi).subscribe(resp => {
       if (resp.status == 200) {
-        window.open("https://" + environment.apiLocation + ":8080/" + resp.body.uri + ".pdf" , "_blank");
+        window.open("https://" + environment.apiLocation + ":8080" + resp.body.uri, "_blank");
       }
     });
   }

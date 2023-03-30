@@ -9,6 +9,7 @@ import { VisitService } from '../visit/visit.service';
 
 import { environment } from 'src/environments/environment';
 import { User } from '../user';
+import { DocumentService } from '../document/document.service';
 export enum MessageType {
   Server = 'server',
   Text = 'text',
@@ -33,11 +34,11 @@ export interface ServerMessage extends Message {
 })
 export class WebRTCComponent implements OnDestroy , OnInit{
 
- 
+
   @ViewChild('localVideo', { static: false }) localStreamNode!: ElementRef;
   @ViewChild('remoteVideo', { static: false }) remoteStreamNode!: ElementRef;
   @ViewChild('audioStreamNode', { static: false }) public audioStreamNode!: ElementRef;
- 
+
   public pclients: {connection: PeerConnectionClient}[] = [];
   private socket: Socket;
 
@@ -50,16 +51,18 @@ export class WebRTCComponent implements OnDestroy , OnInit{
   doctor= true;
   navOpen=false;
   user: any;
+  title = "";
+  text = "";
 
-  
-  
+
   constructor(
     private callService: CallService,
     private deviceService: DeviceService,
     private streamService: StreamService,
     private visitService: VisitService,
     private activatedRoute: ActivatedRoute,
-    private userService: UserService
+    private userService: UserService,
+    private documentService: DocumentService
   ) {
     this.socket = io("https://localhost:8080");
   }
@@ -79,10 +82,10 @@ export class WebRTCComponent implements OnDestroy , OnInit{
     n2!.style.width= '80%';
     }
   }
- 
+
   ngOnInit(): void {
     this.room =this.activatedRoute.snapshot.params["visitId"];
-    
+
     this.userService.getUserData().subscribe(resp => {
       if(resp.status == 200) {
         this.user = new User(resp.body.nome, resp.body.cognome, resp.body.email, resp.body.id_persona, resp.body.tipo);
@@ -94,7 +97,7 @@ export class WebRTCComponent implements OnDestroy , OnInit{
     this.deviceService.tryGetMedia(this.onLocalStream.bind(this), this.onNoStream.bind(this));
   }
   muted(): void {
-    
+
     if(this.mute){
       this.streamService.enableLocalTrack(StreamType.Audio);
       this.mute=!this.mute;
@@ -113,7 +116,7 @@ export class WebRTCComponent implements OnDestroy , OnInit{
     }
   }
 
- 
+
   private onLocalStream(stream: MediaStream): void {
     console.log("onLocalStream", stream);
     this.streamService.setStreamInNode(this.localStreamNode.nativeElement, stream, true, true);
@@ -144,7 +147,7 @@ export class WebRTCComponent implements OnDestroy , OnInit{
     this.pclients = [];
     this.callService.updateSince();
     this.callService.stop();
-    
+
   }
 
   public startCall(): void {
@@ -159,7 +162,7 @@ export class WebRTCComponent implements OnDestroy , OnInit{
          ],
       }
     };
-      
+
 
     this.socket.emit('join', this.room);
 
@@ -224,14 +227,14 @@ export class WebRTCComponent implements OnDestroy , OnInit{
       }
       console.log("iniziatore",this.isInitiator);
     });
- 
 
-    
-    
 
-    
 
- 
+
+
+
+
+
   }
 
   private async addPeer(): Promise<PeerConnectionClient> {
@@ -289,7 +292,7 @@ export class WebRTCComponent implements OnDestroy , OnInit{
     } else {
       this.startPeerConnection(pclient);
     }
-    
+
 
 
 
@@ -297,11 +300,11 @@ export class WebRTCComponent implements OnDestroy , OnInit{
   }
 
   // private startPeerConnection(pclient: PeerConnectionClient): void {
-    
+
   //   if (this.isInitiator) {
   //     console.log("startAsCaller",this.isInitiator)
   //     pclient.startAsCaller();
-      
+
   //   } else {
   //     console.log("startAsCallee",this.isInitiator)
   //       pclient.startAsCallee();
@@ -321,8 +324,17 @@ export class WebRTCComponent implements OnDestroy , OnInit{
       pclient.createOffer();
     });
   }
- 
+
   ngOnDestroy() {
     this.socket.disconnect();
+  }
+
+  submit() {
+    const tipoAnamnesi = 2;
+    this.documentService.saveDocument(this.title, this.text, this.activatedRoute.snapshot.params["visitId"], tipoAnamnesi).subscribe(resp => {
+      if (resp.status == 200) {
+        window.open("https://" + environment.apiLocation + ":8080" + resp.body.uri, "_blank");
+      }
+    });
   }
 }

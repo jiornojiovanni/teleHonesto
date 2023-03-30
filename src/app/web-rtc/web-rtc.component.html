@@ -2,15 +2,15 @@
   <div id="mySidebar" class="sidebar">
     <a class="closebtn" (click)="nav()">×</a>
     <div class="form">
-    <form>
+    <form (ngSubmit)="submit()">
 
         <h3>Titolo</h3>
-        <input  placeholder="Inserisci il titolo">
+        <input [(ngModel)]="title" name="titleName" placeholder="Inserisci il titolo">
 
         <h4>Corpo del testo</h4>
-        <textarea  placeholder="Inserisci il corpo del testo" rows="6"></textarea>
+        <textarea [(ngModel)]="text" name="textName" placeholder="Inserisci il corpo del testo" rows="6"></textarea>
 
-
+        <button type="submit">Salva</button>
     </form>
   </div>
   </div>

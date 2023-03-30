@@ -17,4 +17,13 @@ export class DocumentService {
       observe: 'response'
     });
   }
+
+  getDocuments() {
+    const reqHeader = this.authService.getHeaderWithBearer();
+
+    return this.httpClient.get<any>("https://" + environment.apiLocation + ":8080" + '/documents',{
+      headers: reqHeader,
+      observe: 'response'
+    });
+  }
 }

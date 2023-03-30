@@ -16,6 +16,7 @@ import { VisitListComponent } from './visit/visit-list/visit-list.component';
 import { WebRTCComponent } from './web-rtc/web-rtc.component';
 import { NgxWebrtcModule } from 'ngx-webrtc';
 import { CallFormComponent } from './call-form/call-form.component';
+import { DocumentListComponent } from './document/document-list/document-list.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { CallFormComponent } from './call-form/call-form.component';
     VideocallPJComponent,
     VisitListComponent,
     WebRTCComponent,
-    CallFormComponent
+    CallFormComponent,
+    DocumentListComponent
   ],
   imports: [
     BrowserModule,

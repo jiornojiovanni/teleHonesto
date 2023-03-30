@@ -1,58 +1,34 @@
-
 <body>
   <header>
- 
     <div class="logosec">
-        <div class="logo">Honesto</div>
-        
+      <img src="assets/images/honesto.png" class="logo"/>
     </div>
-    
     <div>{{user.name}} {{user.surname}}</div>
-    
     <a (click)="onLogout()" routerLink="/">
       Logout
     </a>
-  
-  
   </header>
   <div class="main-container">
-
     <div class="box-container">
- 
-               
- 
-                   
-   
-        
-        
-      
-
       <form (ngSubmit)="onSubmit()" #Visitform="ngForm" *ngIf="user.tipo==='medico'">
         <h2>Programma una visita</h2>
         <label for="dataVisita">Data programmata della visita</label>
         <input type="date" name="dataVisita" id="dataVisita" required [(ngModel)]="visit.visitDate"><br>
-      
+
         <label for="oraVisita">Ora programmata della visita</label>
         <input type="time" name="oraVisita" id="oraVisita" required [(ngModel)]="visit.visitTime"><br>
-      
+
         <label for="emailPartecipante">Email del paziente</label>
         <input type="email" name="emailPartecipante" id="emailPartecipante" required [(ngModel)]="visit.visitEmail"><br>
-      
+
         <button type="submit" [disabled]="Visitform.form.invalid">
           Invio
         </button>
-      
+
         <label *ngIf="success">Visita creata con successo!</label>
       </form>
-       
-
-
-    
     </div>
-
-
-
-
-<app-visit-list [id_persona]="user.id_persona"></app-visit-list>
+    <app-visit-list [id_persona]="user.id_persona"></app-visit-list>
+    <app-document-list></app-document-list>
   </div>
 </body>

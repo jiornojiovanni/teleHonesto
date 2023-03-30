@@ -15,6 +15,7 @@ import { VideocallPJComponent } from './videocall-pj/videocall-pj.component';
 import { VisitListComponent } from './visit/visit-list/visit-list.component';
 import { WebRTCComponent } from './web-rtc/web-rtc.component';
 import { NgxWebrtcModule } from 'ngx-webrtc';
+import { CallFormComponent } from './call-form/call-form.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { NgxWebrtcModule } from 'ngx-webrtc';
     ProfileComponent,
     VideocallPJComponent,
     VisitListComponent,
-    WebRTCComponent
+    WebRTCComponent,
+    CallFormComponent
   ],
   imports: [
     BrowserModule,

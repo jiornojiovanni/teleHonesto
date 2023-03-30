@@ -1,30 +1,17 @@
-<main>
-    <div id="local-video">
-        <video #localVideo [muted]="true"></video>
-        <div class="overlay">
-          <button class="toggle-mute">Mute</button>
-          <button class="toggle-video">Video</button>
-        </div>
-      </div>
-      <div id="remote-videos">
-        <video #remoteVideo></video>
-      </div>
-      <div id="controls">
+<div id="container">
+    <div id="video-and-controls">
+      <div id="video-grid">
         <p *ngIf="showError">{{error}}</p>
         <p *ngIf="showLoading">Chiamata in corso...</p>
-        <button *ngIf="startCallVisible" id="start-call" (click)="startCall()">Start Call</button>
-        <button *ngIf="!startCallVisible" id="end-call" (click)="endCall()">End Call</button>
+        <video id="remote-video" #remoteVideo></video>
+        <video id="local-video" #localVideo [muted]="true"></video>
       </div>
-
-      <form *ngIf="showForm">
-        <mat-form-field>
-          <mat-label>Titolo</mat-label>
-          <input matInput placeholder="Inserisci il titolo">
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Corpo del testo</mat-label>
-          <textarea matInput placeholder="Inserisci il corpo del testo" rows="6"></textarea>
-        </mat-form-field>
-      </form>
-</main>
+      <div id="controls">
+        <button id="start-call" class="button" *ngIf="startCallVisible" (click)="startCall()">Avvia chiamata</button>
+        <button id="end-call" class="button" *ngIf="!startCallVisible" (click)="endCall()">Fine chiamata</button>
+        <button id="mute-audio" class="button">Disattiva audio</button>
+        <button id="mute-video" class="button">Disattiva video</button>
+      </div>
+    </div>
+    <app-call-form></app-call-form>
+  </div>

@@ -1,0 +1,12 @@
+<div class="form">
+  <form (ngSubmit)="submit()">
+
+      <h3>Titolo</h3>
+      <input [(ngModel)]="title" name="titleInput" placeholder="Inserisci il titolo">
+
+      <h4>Corpo del testo</h4>
+      <textarea [(ngModel)]="text" name="textInput" placeholder="Inserisci il corpo del testo" rows="6"></textarea>
+      <br>
+      <button type="submit">Salva</button>
+  </form>
+</div>

@@ -19,7 +19,9 @@
 
 <div id="container">
   <div class="video" *ngIf="started">
+    <p class="loader"  *ngIf="!VideoAdded"></p>
     <video #remoteVideo playsinline autoplay></video>
+    
     <audio #audioStreamNode></audio>
   </div>
   <div class="video" *ngIf="!started">

@@ -47,12 +47,14 @@ export class WebRTCComponent implements OnDestroy , OnInit{
   private room: Socket<DefaultEventsMap, DefaultEventsMap> | undefined;
   private mute= false;
   private visible= false;
+ VideoAdded=false;
   started =false;
-  doctor= true;
+  doctor= false;
   navOpen=false;
   user: any;
   title = "";
   text = "";
+ 
 
 
   constructor(
@@ -89,11 +91,15 @@ export class WebRTCComponent implements OnDestroy , OnInit{
     this.userService.getUserData().subscribe(resp => {
       if(resp.status == 200) {
         this.user = new User(resp.body.nome, resp.body.cognome, resp.body.email, resp.body.id_persona, resp.body.tipo);
+        if(resp.body.tipo == "medico"){
+          console.log("Medico");
+          this.doctor=true;
+        }
       }
+      
+      
     });
-    // if(this.user.tipo == "medico"){
-    //   this.doctor=true;
-    // }
+    
     this.deviceService.tryGetMedia(this.onLocalStream.bind(this), this.onNoStream.bind(this));
   }
   muted(): void {
@@ -147,11 +153,16 @@ export class WebRTCComponent implements OnDestroy , OnInit{
     this.pclients = [];
     this.callService.updateSince();
     this.callService.stop();
-
+    this.socket.disconnect();
+    this.navOpen=true;
+    this.nav();
   }
 
   public startCall(): void {
     this.started=true;
+    if(this.socket.disconnected){
+      this.socket.connect();
+    }
     this.deviceService.tryGetMedia(this.onLocalStream.bind(this), this.onNoStream.bind(this));
     const settings: PeerConnectionClientSettings = {
       peerConnectionConfig: {
@@ -183,6 +194,7 @@ export class WebRTCComponent implements OnDestroy , OnInit{
             this.pclients.forEach(async client => {
               client.connection.replaceTrack(track);
             });
+           
           } else {
             this.pclients.forEach(async client => {
               client.connection.addTrack(track);
@@ -275,6 +287,7 @@ export class WebRTCComponent implements OnDestroy , OnInit{
       console.log("remoteTrackAdded");
       if (track.kind === StreamType.Video) {
         this.streamService.setStreamInNode(this.remoteStreamNode.nativeElement, track.track);
+        this.VideoAdded =true;
       }
       if (track.kind === StreamType.Audio) {
         this.streamService.setStreamInNode(this.audioStreamNode.nativeElement, track.track, false);

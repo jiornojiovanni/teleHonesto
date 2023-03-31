@@ -18,14 +18,9 @@
 
                     <table mat-table [dataSource]="visitList" class="items">
 
-                      <ng-container matColumnDef="cognome">
-                        <th mat-header-cell *matHeaderCellDef class="t-op">Cognome</th>
-                        <td mat-cell *matCellDef="let visita">{{ visita.cognome }}</td>
-                      </ng-container>
-
                       <ng-container matColumnDef="nome">
                         <th mat-header-cell *matHeaderCellDef class="t-op">Nome</th>
-                        <td mat-cell *matCellDef="let visita">{{ visita.nome }}</td>
+                        <td mat-cell *matCellDef="let visita">{{ names[visita.id_visita] }}</td>
                       </ng-container>
 
                       <ng-container matColumnDef="data">

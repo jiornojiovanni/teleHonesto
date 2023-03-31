@@ -65,4 +65,12 @@ export class VisitService {
       observe: 'response'
     });
   }
+
+  getVisitName(visitid: number) {
+    const reqHeader = this.authService.getHeaderWithBearer();
+    return this.httpClient.post<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/visitname', { visitid: visitid }, {
+      headers: reqHeader,
+      observe: 'response'
+    });
+  }
 }

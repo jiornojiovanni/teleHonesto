@@ -19,6 +19,7 @@ import { CallFormComponent } from './call-form/call-form.component';
 import { DocumentListComponent } from './document/document-list/document-list.component';
 import { SignupComponent } from './signup/signup.component';
 import { PatientListComponent } from './patients/patient-list/patient-list.component';
+import { SpecificDocumentListComponent } from './specific-document-list/specific-document-list.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { PatientListComponent } from './patients/patient-list/patient-list.compo
     WebRTCComponent,
     CallFormComponent,
     DocumentListComponent,
-    PatientListComponent
+    PatientListComponent,
+    SpecificDocumentListComponent
   ],
   imports: [
     BrowserModule,

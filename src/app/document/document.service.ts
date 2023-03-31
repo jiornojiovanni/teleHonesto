@@ -26,4 +26,13 @@ export class DocumentService {
       observe: 'response'
     });
   }
+
+  getDocumentsFrom(patientID: number) {
+    const reqHeader = this.authService.getHeaderWithBearer();
+
+    return this.httpClient.post<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/documents',  {patientID: patientID},{
+      headers: reqHeader,
+      observe: 'response'
+    });
+  }
 }

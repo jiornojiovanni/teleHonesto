@@ -17,11 +17,13 @@ import { WebRTCComponent } from './web-rtc/web-rtc.component';
 import { NgxWebrtcModule } from 'ngx-webrtc';
 import { CallFormComponent } from './call-form/call-form.component';
 import { DocumentListComponent } from './document/document-list/document-list.component';
+import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    SignupComponent,
     ProfileComponent,
     VideocallPJComponent,
     VisitListComponent,

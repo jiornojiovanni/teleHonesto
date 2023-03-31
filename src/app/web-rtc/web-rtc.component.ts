@@ -54,7 +54,7 @@ export class WebRTCComponent implements OnDestroy , OnInit{
   user: any;
   title = "";
   text = "";
- 
+
 
 
   constructor(
@@ -96,8 +96,8 @@ export class WebRTCComponent implements OnDestroy , OnInit{
           this.doctor=true;
         }
       }
-      
-      
+
+
     });
     this.deviceService.tryGetMedia(this.onLocalStream.bind(this), this.onNoStream.bind(this));
     this.startCall();
@@ -194,7 +194,7 @@ export class WebRTCComponent implements OnDestroy , OnInit{
             this.pclients.forEach(async client => {
               client.connection.replaceTrack(track);
             });
-           
+
           } else {
             this.pclients.forEach(async client => {
               client.connection.addTrack(track);
@@ -346,7 +346,7 @@ export class WebRTCComponent implements OnDestroy , OnInit{
     const tipoAnamnesi = 2;
     this.documentService.saveDocument(this.title, this.text, this.activatedRoute.snapshot.params["visitId"], tipoAnamnesi).subscribe(resp => {
       if (resp.status == 200) {
-        window.open("https://" + environment.apiLocation + ":8080" + resp.body.uri, "_blank");
+        window.open("https://" + environment.apiLocation + ":" + environment.apiPort + resp.body.uri, "_blank");
       }
     });
   }

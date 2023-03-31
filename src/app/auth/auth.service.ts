@@ -27,7 +27,7 @@ export class AuthService {
     } else {
       return null;
     }
-    
+
   }
 
   setToken(token: string, expiresIn: number) {
@@ -45,7 +45,7 @@ export class AuthService {
 
   auth(email: string, password: string) {
     const body = { email: email, password: new Md5().appendStr(password).end() };
-    return this.httpClient.post<any>("https://" + environment.apiLocation + ":8080" + "/login", body, {
+    return this.httpClient.post<any>("https://" + environment.apiLocation + ":" + environment.apiPort + "/login", body, {
       observe: 'response'
     });
   }

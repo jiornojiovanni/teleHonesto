@@ -31,7 +31,7 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
           "peer" + resp.body.id_persona,
           {
             host: environment.apiLocation,
-            port: 8080,
+            port: Number(environment.apiPort),
             path: '/connect',
             secure: true
           });

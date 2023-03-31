@@ -13,7 +13,7 @@ export class VisitService {
   getVisitList() {
     const reqHeader = this.authService.getHeaderWithBearer();
 
-    return this.httpClient.get<any>("https://" + environment.apiLocation + ":8080" + '/visit',{
+    return this.httpClient.get<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/visit',{
       headers: reqHeader,
       observe: 'response'
     });
@@ -22,7 +22,7 @@ export class VisitService {
   createVisit(visit: Visit) {
     const reqHeader = this.authService.getHeaderWithBearer();
 
-    return this.httpClient.put<any>("https://" + environment.apiLocation + ":8080" + '/visit', visit,{
+    return this.httpClient.put<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/visit', visit,{
       headers: reqHeader,
       observe: 'response'
     });
@@ -33,7 +33,7 @@ export class VisitService {
     queryParams = queryParams.append("visitID", visitID);
     const reqHeader = this.authService.getHeaderWithBearer();
 
-    return this.httpClient.get<any>("https://" + environment.apiLocation + ":8080" + '/visitpartecipants',{
+    return this.httpClient.get<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/visitpartecipants',{
       headers: reqHeader,
       params: queryParams,
       observe: 'response'
@@ -42,7 +42,7 @@ export class VisitService {
 
   updateJoinTime(visitID: number) {
     const reqHeader = this.authService.getHeaderWithBearer();
-    return this.httpClient.post<any>("https://" + environment.apiLocation + ":8080" + '/updatevisit', { visitID: visitID }, {
+    return this.httpClient.post<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/updatevisit', { visitID: visitID }, {
       headers: reqHeader,
       observe: 'response'
     });
@@ -51,7 +51,7 @@ export class VisitService {
   //Can be called multiple times with no problems in the same call
   startVisit(visitID: number) {
     const reqHeader = this.authService.getHeaderWithBearer();
-    return this.httpClient.post<any>("https://" + environment.apiLocation + ":8080" + '/startvisit', { visitID: visitID }, {
+    return this.httpClient.post<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/startvisit', { visitID: visitID }, {
       headers: reqHeader,
       observe: 'response'
     });
@@ -60,7 +60,7 @@ export class VisitService {
   //Same for stopvisit
   stopVisit(visitID: number) {
     const reqHeader = this.authService.getHeaderWithBearer();
-    return this.httpClient.post<any>("https://" + environment.apiLocation + ":8080" + '/stopvisit', { visitID: visitID }, {
+    return this.httpClient.post<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/stopvisit', { visitID: visitID }, {
       headers: reqHeader,
       observe: 'response'
     });

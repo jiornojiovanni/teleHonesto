@@ -12,7 +12,7 @@ export class DocumentService {
   saveDocument(title: string, text: string, visitID: number, type: number) {
     const reqHeader = this.authService.getHeaderWithBearer();
 
-    return this.httpClient.post<any>("https://" + environment.apiLocation + ":8080" + '/createdoc', {title: title, text: text, visitID: visitID, type: type}, {
+    return this.httpClient.post<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/createdoc', {title: title, text: text, visitID: visitID, type: type}, {
       headers: reqHeader,
       observe: 'response'
     });
@@ -21,7 +21,7 @@ export class DocumentService {
   getDocuments() {
     const reqHeader = this.authService.getHeaderWithBearer();
 
-    return this.httpClient.get<any>("https://" + environment.apiLocation + ":8080" + '/documents',{
+    return this.httpClient.get<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/documents',{
       headers: reqHeader,
       observe: 'response'
     });

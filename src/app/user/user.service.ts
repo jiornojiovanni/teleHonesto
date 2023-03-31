@@ -19,7 +19,7 @@ export class UserService {
       Authorization: 'Bearer ' + this.authService.getToken(),
     });
 
-    return this.httpClient.get<any>("https://" + environment.apiLocation + ":8080" + '/user', {
+    return this.httpClient.get<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/user', {
       headers: reqHeader,
       observe: 'response'
     });

@@ -1,3 +1,4 @@
 export const environment = {
-  apiLocation: 'localhost'
+  apiLocation: '192.168.178.65',
+  apiPort: '8080'
 };

@@ -9,7 +9,7 @@ import { VisitService } from '../visit.service';
 export class VisitListComponent implements OnInit {
   @Input() id_persona: number | undefined;
   visitList: any;
-  displayedColumns: string[] = ['data', 'ora', "link", 'WebRTC'];
+  displayedColumns: string[] = ['data', 'ora', 'stato', 'peerjs', 'webrtc'];
 
   constructor(private visitService: VisitService) {}
 

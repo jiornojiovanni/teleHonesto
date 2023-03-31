@@ -38,4 +38,16 @@ export class UserService {
       observe: 'response'
     });
   }
+
+  signup(user: any) {
+    return this.httpClient.put<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/user', user,{
+      observe: 'response'
+    });
+  }
+
+  getSpecialties() {
+    return this.httpClient.get<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/specialties', {
+      observe: 'response'
+    });
+  }
 }

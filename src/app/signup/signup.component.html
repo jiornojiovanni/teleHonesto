@@ -18,11 +18,11 @@
                   <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Crea un account</h5>
 
                   <div class="form-outline mb-4">
-                    <label class="form-label" for="form2Example17" >Tipologia Utente:</label>
-                  <select class="form-control form-control-lg" name="type" id="type">
-                    <option value="volvo">Medico</option>
-                    <option value="saab">Paziente</option>
-                    <option value="opel">CarGiver</option>
+                    <label class="form-label"  for="form2Example17" >Tipologia Utente:</label>
+                  <select class="form-control form-control-lg" [(ngModel)]="tipo" name="type" id="type">
+                    <option value="medico">Medico</option>
+                    <option value="paziente">Paziente</option>
+                    <option value="caregiver">CareGiver</option>
 
                   </select>
 
@@ -30,11 +30,8 @@
 
                   <div class="form-outline mb-4">
                     <label class="form-label" for="form2Example17" >Specializzazione:</label>
-                  <select class="form-control form-control-lg" name="type" id="type">
-                    <option value="volvo">Chirurgia</option>
-                    <option value="saab">Neurologia</option>
-                    <option value="opel">Altro</option>
-
+                  <select name="aaaaaa" [(ngModel)]="specializzazione" class="form-control form-control-lg"  id="type">
+                    <option *ngFor="let specialist of specialistList" value="{{specialist.id_specializzazione}}">{{specialist.nome_specializzazione}}</option>
                   </select>
 
                   </div>
@@ -43,50 +40,44 @@
                   <div class="form-outline mb-4">
                     <label class="form-label" for="form2Example17">Email</label>
                     <input type="email" id="emailField" class="form-control form-control-lg" name="email" [(ngModel)]="email" placeholder="Inserisci Email" required
-                    #emailInput="ngModel" />
+                    />
 
 
                   </div>
                   <div class="form-outline mb-4">
                     <label class="form-label" for="form2Example17">Nome</label>
-                    <input type="text" id="nameField" class="form-control form-control-lg" name="nome" placeholder="Inserisci Nome" required />
+                    <input type="text" id="nameField" class="form-control form-control-lg" name="nome" [(ngModel)]="nome" placeholder="Inserisci Nome" required />
 
 
                   </div>
                   <div class="form-outline mb-4">
                     <label class="form-label" for="form2Example17">Cognome</label>
-                    <input type="text" id="surnameField" class="form-control form-control-lg" name="cognome" placeholder="Inserisci Cognome" required />
-
-                  </div>
-
-                  <div class="form-outline mb-4">
-                    <label class="form-label" for="form2Example17">Codice Fiscale</label>
-                    <input type="text" id="cfField" class="form-control form-control-lg" name="cf" placeholder="Inserisci CF" required />
+                    <input type="text" id="surnameField" class="form-control form-control-lg" name="cognome" [(ngModel)]="cognome" placeholder="Inserisci Cognome" required />
 
                   </div>
 
                   <div class="form-outline mb-4">
                     <label class="form-label" for="form2Example17">Data di nascita</label>
-                    <input type="date" id="dateField" class="form-control form-control-lg" name="data" placeholder="Inserisci Data" required />
+                    <input type="date" id="dateField" class="form-control form-control-lg" name="data" [(ngModel)]="data" placeholder="Inserisci Data" required />
 
                   </div>
 
                   <div class="form-outline mb-4">
                     <label class="form-label" for="form2Example17">Cellulare</label>
-                    <input type="number" id="phoneField" class="form-control form-control-lg" name="number" placeholder="Inserisci Numero" required />
+                    <input type="number" id="phoneField" class="form-control form-control-lg" name="number" [(ngModel)]="telefono" placeholder="Inserisci Numero" required />
 
                   </div>
 
                   <div class="form-outline mb-4">
                     <label class="form-label" for="form2Example17">CAP</label>
-                    <input type="number" id="capField" class="form-control form-control-lg" name="cap" placeholder="Inserisci CAP" required />
+                    <input type="number" id="capField" class="form-control form-control-lg" name="cap" [(ngModel)]="cap" placeholder="Inserisci CAP" required />
 
                   </div>
 
                   <div class="form-outline mb-4">
                     <label class="form-label" for="form2Example17">Provincia</label>
 
-                    <select class="form-control form-control-lg" name="provincia" id="type">
+                    <select class="form-control form-control-lg" name="provincia" id="type" [(ngModel)]="provincia">
                       <option value="">Scegli una provincia</option>
                       <option value="AG">Agrigento</option>
                       <option value="AL">Alessandria</option>
@@ -201,7 +192,7 @@
                   <div class="form-outline mb-4">
 
                     <label class="form-label" for="form2Example27">Password</label>
-                    <input type="password" id="passwordField" class="form-control form-control-lg" name="password" placeholder="Inserisci password"
+                    <input type="password" id="passwordField" class="form-control form-control-lg" name="password" [(ngModel)]="password" placeholder="Inserisci password"
                       [(ngModel)]="password" required />
 
                   </div>
@@ -214,7 +205,6 @@
                   </div>
 
                   <br>
-                  <p *ngIf="showError" style="color: red;">Email o password errate</p>
 
                   <p class="mb-5 pb-lg-2" style="color: #393f81;">Hai un account? <a href=""
                       style="color: #393f81;">Accedi</a></p>

@@ -76,6 +76,7 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
     this.mediaConnection = this.peer.call(peerId, stream);
 
     this.mediaConnection.on('stream', (remoteStream: MediaStream) => {
+      this.visitService.updateJoinTime(this.visitID).subscribe();
       this.startCallVisible = false;
       this.showLoading = false;
       this.showVideoStream(remoteStream);
@@ -112,6 +113,7 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
       this.startCallVisible = false;
 
       this.mediaConnection.on('stream', (remoteStream: MediaStream) => {
+        this.visitService.updateJoinTime(this.visitID).subscribe();
         this.showVideoStream(remoteStream);
       });
 

@@ -40,5 +40,11 @@ export class VisitService {
     });
   }
 
-  
+  updateJoinTime(visitID: number) {
+    const reqHeader = this.authService.getHeaderWithBearer();
+    return this.httpClient.post<any>("https://" + environment.apiLocation + ":8080" + '/updatevisit', { visitID: visitID }, {
+      headers: reqHeader,
+      observe: 'response'
+    });
+  }
 }

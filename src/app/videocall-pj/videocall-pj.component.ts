@@ -23,6 +23,8 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
   showForm = false;
   error = "";
   showLoading = false;
+  callWasStarted = false;
+
 
   constructor(private renderer: Renderer2, private userService: UserService, private visitService: VisitService, private activatedRoute: ActivatedRoute) {
     userService.getUserData().subscribe(resp => {
@@ -47,7 +49,9 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
 
   ngOnDestroy(): void {
     this.peer.destroy();
-    this.visitService.stopVisit(this.visitID).subscribe();
+    if(this.callWasStarted) {
+      this.visitService.stopVisit(this.visitID).subscribe();
+    }
   }
 
   ngOnInit(): void {
@@ -79,7 +83,7 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
     this.mediaConnection.on('stream', (remoteStream: MediaStream) => {
       this.visitService.updateJoinTime(this.visitID).subscribe();
       this.visitService.startVisit(this.visitID).subscribe();
-
+      this.callWasStarted = true;
       this.startCallVisible = false;
       this.showLoading = false;
       this.showVideoStream(remoteStream);
@@ -123,6 +127,7 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
       this.mediaConnection.on('stream', (remoteStream: MediaStream) => {
         this.visitService.updateJoinTime(this.visitID).subscribe();
         this.visitService.startVisit(this.visitID).subscribe();
+        this.callWasStarted = true;
 
         this.showVideoStream(remoteStream);
       });

@@ -99,7 +99,7 @@ export class WebRTCComponent implements OnDestroy , OnInit{
 
 
     });
-    this.deviceService.tryGetMedia(this.onLocalStream.bind(this), this.onNoStream.bind(this));
+    
     this.startCall();
   }
   muted(): void {
@@ -177,6 +177,7 @@ export class WebRTCComponent implements OnDestroy , OnInit{
 
     this.socket.emit('join', this.room);
 
+    
     this.socket.on('private-message', (message: ServerMessage) => {
       console.log('private-message', message.type);
 

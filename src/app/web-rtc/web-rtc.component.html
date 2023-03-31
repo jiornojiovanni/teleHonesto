@@ -1,25 +1,16 @@
 
   <div id="mySidebar" class="sidebar">
     <a class="closebtn" (click)="nav()">×</a>
-    <div class="form">
-    <form (ngSubmit)="submit()">
-
-        <h3>Titolo</h3>
-        <input [(ngModel)]="title" name="titleName" placeholder="Inserisci il titolo">
-
-        <h4>Corpo del testo</h4>
-        <textarea [(ngModel)]="text" name="textName" placeholder="Inserisci il corpo del testo" rows="6"></textarea>
-
-        <button type="submit">Salva</button>
-    </form>
-  </div>
+   
+   <app-call-form></app-call-form>
+  
   </div>
 
   <div id="main">
 
 <div id="container">
   <div class="video" *ngIf="started">
-    <p class="loader"  *ngIf="!VideoAdded"></p>
+    <p class="loader"  *ngIf="!callStarted"></p>
     <video #remoteVideo playsinline autoplay></video>
     
     <audio #audioStreamNode></audio>
@@ -40,7 +31,7 @@
     <button id="disable-video-button" (click)="disablevideo()" class="control-button">
       <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M822 1059 11 248q-15-15-15-36t16-37q15-15 37-15t37 15l811 811q15 15 15 36t-16 37q-15 15-37 15t-37-15Zm-85-349L253 226h378q44 0 75 31t31 75v165l146-146q12-12 28-5.5t16 23.5v408q0 17-16 23.5t-28-5.5L737 649v61ZM138 227l598 598q0 41-32 71t-73 30H142q-44 0-75-31t-31-75V333q0-41 30-73.5t72-32.5Z"/></svg>
     </button>
-    <button id="openbtn" *ngIf="doctor" (click)="nav()" class="control-button">
+    <button id="openbtn" (click)="nav()" class="control-button">
       <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M360 816h240q17 0 28.5-11.5T640 776q0-17-11.5-28.5T600 736H360q-17 0-28.5 11.5T320 776q0 17 11.5 28.5T360 816Zm0-160h240q17 0 28.5-11.5T640 616q0-17-11.5-28.5T600 576H360q-17 0-28.5 11.5T320 616q0 17 11.5 28.5T360 656ZM240 976q-33 0-56.5-23.5T160 896V256q0-33 23.5-56.5T240 176h287q16 0 30.5 6t25.5 17l194 194q11 11 17 25.5t6 30.5v447q0 33-23.5 56.5T720 976H240Zm280-560q0 17 11.5 28.5T560 456h160L520 256v160Z"/></svg>
     </button>
     <button id="hang-up-button" (click)="endCall()" class="control-button" >

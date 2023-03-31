@@ -75,8 +75,7 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
 
   async call(peerId: string) {
     const stream = await this.getMediaStream();
-    this.mediaConnection = this.peer.call(peerId, stream);
-
+    this.mediaConnection = this.peer.call(peerId, stream, {metadata: {visit: this.visitID}});
     this.mediaConnection.on('stream', (remoteStream: MediaStream) => {
       this.visitService.updateJoinTime(this.visitID).subscribe();
       this.visitService.startVisit(this.visitID).subscribe();
@@ -113,6 +112,11 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
     this.peer.on('call', async (call: MediaConnection) => {
       const stream = await this.getMediaStream();
       this.mediaConnection = call;
+
+      //If the visit id of the call does not correspond to the current visit id we do not answer because it's a different visit.
+      if(this.mediaConnection.metadata.visit != this.visitID)
+        return;
+
       this.mediaConnection.answer(stream);
       this.startCallVisible = false;
 

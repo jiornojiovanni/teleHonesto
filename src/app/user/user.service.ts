@@ -1,8 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth/auth.service';
-import { User } from '../user';
 
 @Injectable({
   providedIn: 'root',
@@ -14,12 +13,27 @@ export class UserService {
   ) {}
 
   getUserData() {
-    const reqHeader = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.authService.getToken(),
-    });
+    const reqHeader = this.authService.getHeaderWithBearer();
 
     return this.httpClient.get<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/user', {
+      headers: reqHeader,
+      observe: 'response'
+    });
+  }
+
+  getPatients() {
+    const reqHeader = this.authService.getHeaderWithBearer();
+
+    return this.httpClient.get<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/patients', {
+      headers: reqHeader,
+      observe: 'response'
+    });
+  }
+
+  getAllPatients() {
+    const reqHeader = this.authService.getHeaderWithBearer();
+
+    return this.httpClient.get<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/allpatients', {
       headers: reqHeader,
       observe: 'response'
     });

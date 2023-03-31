@@ -18,7 +18,7 @@ export class CallFormComponent {
     const tipoAnamnesi = 2;
     this.documentService.saveDocument(this.title, this.text, this.visitID, tipoAnamnesi).subscribe(resp => {
       if (resp.status == 200) {
-        window.open("https://" + environment.apiLocation + ":8080" + resp.body.uri, "_blank");
+        window.open("https://" + environment.apiLocation + ":" + environment.apiPort + resp.body.uri, "_blank");
       }
     });
   }

@@ -31,7 +31,7 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
           "peer" + resp.body.id_persona,
           {
             host: environment.apiLocation,
-            port: 8080,
+            port: Number(environment.apiPort),
             path: '/connect',
             secure: true
           });
@@ -47,6 +47,7 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
 
   ngOnDestroy(): void {
     this.peer.destroy();
+    this.visitService.stopVisit(this.visitID).subscribe();
   }
 
   ngOnInit(): void {
@@ -64,6 +65,7 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
 
   endCall() {
     this.mediaConnection.close();
+    this.visitService.stopVisit(this.visitID).subscribe();
     this.startCallVisible = true;
   }
 
@@ -73,10 +75,11 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
 
   async call(peerId: string) {
     const stream = await this.getMediaStream();
-    this.mediaConnection = this.peer.call(peerId, stream);
-
+    this.mediaConnection = this.peer.call(peerId, stream, {metadata: {visit: this.visitID}});
     this.mediaConnection.on('stream', (remoteStream: MediaStream) => {
       this.visitService.updateJoinTime(this.visitID).subscribe();
+      this.visitService.startVisit(this.visitID).subscribe();
+
       this.startCallVisible = false;
       this.showLoading = false;
       this.showVideoStream(remoteStream);
@@ -109,11 +112,18 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
     this.peer.on('call', async (call: MediaConnection) => {
       const stream = await this.getMediaStream();
       this.mediaConnection = call;
+
+      //If the visit id of the call does not correspond to the current visit id we do not answer because it's a different visit.
+      if(this.mediaConnection.metadata.visit != this.visitID)
+        return;
+
       this.mediaConnection.answer(stream);
       this.startCallVisible = false;
 
       this.mediaConnection.on('stream', (remoteStream: MediaStream) => {
         this.visitService.updateJoinTime(this.visitID).subscribe();
+        this.visitService.startVisit(this.visitID).subscribe();
+
         this.showVideoStream(remoteStream);
       });
 

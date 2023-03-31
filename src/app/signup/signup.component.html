@@ -28,9 +28,10 @@
 
                   </div>
 
-                  <div class="form-outline mb-4">
+                  <div class="form-outline mb-4" *ngIf="tipo === 'medico'" >
                     <label class="form-label" for="form2Example17" >Specializzazione:</label>
                   <select name="aaaaaa" [(ngModel)]="specializzazione" class="form-control form-control-lg"  id="type">
+                    <option value="{{undefined}}" selected disabled>Scegli una specializzazione</option>
                     <option *ngFor="let specialist of specialistList" value="{{specialist.id_specializzazione}}">{{specialist.nome_specializzazione}}</option>
                   </select>
 

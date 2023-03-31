@@ -24,6 +24,10 @@ export class SignupComponent {
   }
 
   submit() {
+    if(this.specializzazione === undefined) {
+      this.specializzazione = "";
+    }
+
     this.userService.signup({
       nome: this.nome,
       cognome: this.cognome,

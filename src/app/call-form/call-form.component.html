@@ -9,4 +9,11 @@
       <br>
       <button type="submit">Salva</button>
   </form>
+  <form (ngSubmit)="fileSubmit()">
+    <input type="file" name="myFile" (change)="selectFile($event)"/>
+    <input type="submit" />
+    <p *ngIf="fileUplouded">File caricato</p>
+  </form>
+
+
 </div>

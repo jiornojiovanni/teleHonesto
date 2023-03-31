@@ -35,4 +35,10 @@ export class DocumentService {
       observe: 'response'
     });
   }
+
+  uploudDocument(filedata: any) {
+    return this.httpClient.post("https://" + environment.apiLocation + ":" + environment.apiPort + '/upload', filedata, {
+      observe: 'response'
+    });
+  }
 }

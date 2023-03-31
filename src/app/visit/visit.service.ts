@@ -47,4 +47,22 @@ export class VisitService {
       observe: 'response'
     });
   }
+
+  //Can be called multiple times with no problems in the same call
+  startVisit(visitID: number) {
+    const reqHeader = this.authService.getHeaderWithBearer();
+    return this.httpClient.post<any>("https://" + environment.apiLocation + ":8080" + '/startvisit', { visitID: visitID }, {
+      headers: reqHeader,
+      observe: 'response'
+    });
+  }
+
+  //Same for stopvisit
+  stopVisit(visitID: number) {
+    const reqHeader = this.authService.getHeaderWithBearer();
+    return this.httpClient.post<any>("https://" + environment.apiLocation + ":8080" + '/stopvisit', { visitID: visitID }, {
+      headers: reqHeader,
+      observe: 'response'
+    });
+  }
 }

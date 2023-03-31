@@ -47,6 +47,7 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
 
   ngOnDestroy(): void {
     this.peer.destroy();
+    this.visitService.stopVisit(this.visitID).subscribe();
   }
 
   ngOnInit(): void {
@@ -64,6 +65,7 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
 
   endCall() {
     this.mediaConnection.close();
+    this.visitService.stopVisit(this.visitID).subscribe();
     this.startCallVisible = true;
   }
 
@@ -77,6 +79,8 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
 
     this.mediaConnection.on('stream', (remoteStream: MediaStream) => {
       this.visitService.updateJoinTime(this.visitID).subscribe();
+      this.visitService.startVisit(this.visitID).subscribe();
+
       this.startCallVisible = false;
       this.showLoading = false;
       this.showVideoStream(remoteStream);
@@ -114,6 +118,8 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
 
       this.mediaConnection.on('stream', (remoteStream: MediaStream) => {
         this.visitService.updateJoinTime(this.visitID).subscribe();
+        this.visitService.startVisit(this.visitID).subscribe();
+
         this.showVideoStream(remoteStream);
       });
 

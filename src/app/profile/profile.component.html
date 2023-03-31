@@ -17,10 +17,12 @@
         <label for="oraVisita">Ora programmata della visita</label>
         <input type="time" name="oraVisita" id="oraVisita" required [(ngModel)]="visit.visitTime"><br>
 
-        <label for="emailPartecipante">Email del paziente</label>
-        <input type="email" name="emailPartecipante" id="emailPartecipante" required [(ngModel)]="visit.visitEmail"><br>
+        <select [(ngModel)]="visit.visitEmail" class="form-control form-control-lg" name="patient" id="type" required>
+          <option value="{{undefined}}" selected disabled>Scegli un paziente</option>
+          <option *ngFor="let patient of patientList" value="{{patient.mail}}">{{patient.nome + " " + patient.cognome + " - " + patient.mail }}</option>
+        </select>
 
-        <button type="submit" [disabled]="Visitform.form.invalid">
+        <button type="submit" [disabled]="Visitform.form.invalid || !visit.visitEmail">
           Invio
         </button>
 

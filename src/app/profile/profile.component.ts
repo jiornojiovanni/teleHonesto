@@ -14,6 +14,7 @@ export class ProfileComponent implements OnInit {
   user: User = new User('', '', '', 0, '');
   visit = new Visit('', '', '', '');
   success = false;
+  patientList: any;
 
   constructor(private authService: AuthService, private userService: UserService, private visitService: VisitService) {}
 
@@ -21,6 +22,11 @@ export class ProfileComponent implements OnInit {
     this.userService.getUserData().subscribe(resp => {
       if(resp.status == 200) {
         this.user = new User(resp.body.nome, resp.body.cognome, resp.body.email, resp.body.id_persona, resp.body.tipo);
+        if(resp.body.tipo == "medico") {
+          this.userService.getAllPatients().subscribe(resp => {
+            this.patientList = resp.body;
+          });
+        }
       }
     });
   }

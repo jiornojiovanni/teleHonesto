@@ -10,7 +10,7 @@ import { PatientService } from '../patient.service';
 })
 export class PatientListComponent implements OnInit {
   patientList: any;
-  displayedColumns: string[] = ['nome', 'creazione', 'link'];
+  displayedColumns: string[] = ['nome', 'cognome', 'email', 'link'];
 
 
   constructor(private patientService: PatientService) {}
@@ -29,6 +29,6 @@ export class PatientListComponent implements OnInit {
 
   goToLink($event: any, link: string) {
     $event.preventDefault();
-    
+
   }
 }

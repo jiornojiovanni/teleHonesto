@@ -1,0 +1,32 @@
+<div class="main-container">
+    <div class="main">
+      <div class="report-container">
+        <div class="report-header">
+          <h1 class="patients">Pazienti</h1>
+          <button mat-raised-button (click)="refreshList()">Aggiorna lista</button>
+        </div>
+        <div class="report-body">
+          <table mat-table [dataSource]="patientList" class="items">
+
+            <ng-container matColumnDef="nome">
+              <th mat-header-cell *matHeaderCellDef class="t-op">Nome</th>
+              <td mat-cell *matCellDef="let patient">{{ patient.nome }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="creazione">
+              <th mat-header-cell *matHeaderCellDef class="t-op">Cognome</th>
+              <td mat-cell *matCellDef="let patient">{{ patient.cognome }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="link">
+              <th mat-header-cell *matHeaderCellDef class="t-op">Link</th>
+              <td mat-cell *matCellDef="let patient"><a href="" (click)="goToLink($event, patient.id)">Apri</a></td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>

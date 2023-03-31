@@ -30,5 +30,6 @@
       </form>
     </div>
     <app-visit-list [id_persona]="user.id_persona"></app-visit-list>
-    <app-document-list></app-document-list>
+    <app-document-list *ngIf="user.tipo!=='medico'"></app-document-list>
+    <app-patient-list *ngIf="user.tipo==='medico'"></app-patient-list>
   </div>

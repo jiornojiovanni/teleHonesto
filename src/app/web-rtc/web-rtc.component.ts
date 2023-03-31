@@ -66,7 +66,7 @@ export class WebRTCComponent implements OnDestroy , OnInit{
     private userService: UserService,
     private documentService: DocumentService
   ) {
-    this.socket = io("https://localhost:8080");
+    this.socket = io("https://"+environment.apiLocation+"8080");
   }
    nav(): void {
     if(this.navOpen == true){
@@ -154,6 +154,7 @@ export class WebRTCComponent implements OnDestroy , OnInit{
     this.callService.updateSince();
     this.callService.stop();
     this.socket.disconnect();
+    this.visitService.stopVisit(this.activatedRoute.snapshot.params["visitId"]).subscribe();
     this.navOpen=true;
     this.nav();
   }
@@ -289,6 +290,8 @@ export class WebRTCComponent implements OnDestroy , OnInit{
       if (track.kind === StreamType.Video) {
         this.streamService.setStreamInNode(this.remoteStreamNode.nativeElement, track.track);
         this.VideoAdded =true;
+        this.visitService.updateJoinTime(this.activatedRoute.snapshot.params["visitId"]).subscribe();
+        this.visitService.startVisit(this.activatedRoute.snapshot.params["visitId"]).subscribe();
       }
       if (track.kind === StreamType.Audio) {
         this.streamService.setStreamInNode(this.audioStreamNode.nativeElement, track.track, false);

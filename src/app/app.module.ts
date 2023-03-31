@@ -18,6 +18,7 @@ import { NgxWebrtcModule } from 'ngx-webrtc';
 import { CallFormComponent } from './call-form/call-form.component';
 import { DocumentListComponent } from './document/document-list/document-list.component';
 import { SignupComponent } from './signup/signup.component';
+import { PatientListComponent } from './patients/patient-list/patient-list.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { SignupComponent } from './signup/signup.component';
     VisitListComponent,
     WebRTCComponent,
     CallFormComponent,
-    DocumentListComponent
+    DocumentListComponent,
+    PatientListComponent
   ],
   imports: [
     BrowserModule,

@@ -25,7 +25,8 @@ export class DocumentListComponent implements OnInit {
     });
   }
 
-  goToLink(link: string) {
+  goToLink($event: any, link: string) {
+    $event.preventDefault();
     window.open("https://" + environment.apiLocation + ":8080" + link, "_blank");
   }
 }

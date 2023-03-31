@@ -1,21 +1,18 @@
-<section class="vh-100" style="background-color: hsla(204, 100%, 37%, 0.819);">
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
+<section  style="background-color: hsla(204, 100%, 37%, 0.819);">
+  <div class="container py-5 ">
+    <div class="row d-flex justify-content-center align-items-center ">
       <div class="col col-xl-10">
         <div class="card" style="border-radius: 1rem;">
           <div class="row g-0">
-            <div class="col-md-6 col-lg-5 d-none d-md-block">
-              <img src="assets/images/login_image.jpg"
-                alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
-            </div>
-            <div class="col-md-6 col-lg-7 d-flex align-items-center">
+            
+            <div>
               <div class="card-body p-4 p-lg-5 text-black">
 
                 <form #loginForm="ngForm" (submit)="submit()">
 
                   <div class="d-flex align-items-center mb-3 pb-1">
 
-                    <span class="h1 fw-bold mb-0">Honesto</span>
+                    <img alt="logo" src="../assets/images/logo.png" class="logo">
                   </div>
 
                   <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Accedi al tuo account</h5>
@@ -46,7 +43,7 @@
                   <br>
                   <p *ngIf="showError" style="color: red;">Email o password errate</p>
                   <a class="small text-muted" href="#!">Password dimenticata?</a>
-                  <p class="mb-5 pb-lg-2" style="color: #393f81;">Non hai un account? <a href="#!"
+                  <p class="mb-5 pb-lg-2" style="color: #393f81;">Non hai un account? <a href="signup"
                       style="color: #393f81;">Registrati qui</a></p>
                   <a href="#!" class="small text-muted">Termini d'uso.</a>
                   <br>

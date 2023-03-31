@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, Renderer2, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import Peer, { MediaConnection } from 'peerjs';
 import { environment } from 'src/environments/environment';
@@ -10,7 +10,7 @@ import { VisitService } from '../visit/visit.service';
   templateUrl: './videocall-pj.component.html',
   styleUrls: ['./videocall-pj.component.scss'],
 })
-export class VideocallPJComponent implements OnDestroy {
+export class VideocallPJComponent implements OnDestroy, OnInit{
 
   @ViewChild('remoteVideo') remoteVideo?: any;
   @ViewChild('localVideo') localVideo?: any;
@@ -19,9 +19,8 @@ export class VideocallPJComponent implements OnDestroy {
   peer!: Peer;
   mediaConnection!: MediaConnection;
 
-  startCallVisible = true;
+  startCallVisible = false;
   showForm = false;
-  showError = false;
   error = "";
   showLoading = false;
 
@@ -50,12 +49,15 @@ export class VideocallPJComponent implements OnDestroy {
     this.peer.destroy();
   }
 
+  ngOnInit(): void {
+    this.startCall();
+  }
+
   startCall() {
     this.visitService.getVisitPartecipants(this.visitID).subscribe(resp => {
       if (resp.status == 200) {
         this.call("peer" + resp.body.fk_persona);
         this.showLoading = true;
-        this.showError = false;
       }
     });
   }
@@ -97,12 +99,10 @@ export class VideocallPJComponent implements OnDestroy {
 
     this.peer.on('error', (err: any) => {
       console.log(err.type);
-      this.showError = true;
       this.showLoading = false;
       if(err.type == 'peer-unavailable')
-        this.error = "Utente non disponibile.";
-      else
-        this.error = "Errore, errore!";
+        this.startCall();
+        this.showLoading = true;
     });
 
     this.peer.on('call', async (call: MediaConnection) => {

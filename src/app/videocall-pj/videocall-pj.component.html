@@ -1,7 +1,6 @@
 <div id="container">
     <div id="video-and-controls">
       <div id="video-grid">
-        <p *ngIf="showError">{{error}}</p>
         <p *ngIf="showLoading">Chiamata in corso...</p>
         <video id="remote-video" #remoteVideo></video>
         <video id="local-video" #localVideo [muted]="true"></video>

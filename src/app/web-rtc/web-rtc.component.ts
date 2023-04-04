@@ -45,8 +45,8 @@ export class WebRTCComponent implements OnDestroy , OnInit{
   private isInitiator = false;
   private localStream: MediaStream | null = null;
   private room: Socket<DefaultEventsMap, DefaultEventsMap> | undefined;
-  private mute= false;
-  private visible= false;
+   mute= false;
+   visible= false;
  callStarted=false;
   started =false;
   doctor= false;

@@ -6,7 +6,7 @@ import { first } from 'rxjs/operators';
 import { io, Socket } from "socket.io-client";
 import { UserService } from '../user/user.service';
 import { VisitService } from '../visit/visit.service';
-
+import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { User } from '../user';
 import { DocumentService } from '../document/document.service';
@@ -64,7 +64,8 @@ export class WebRTCComponent implements OnDestroy , OnInit{
     private visitService: VisitService,
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
-    private documentService: DocumentService
+    private documentService: DocumentService,
+    private router: Router
   ) {
     this.socket = io("https://"+environment.apiLocation+":8080");
   }
@@ -160,6 +161,7 @@ export class WebRTCComponent implements OnDestroy , OnInit{
     
     this.navOpen=true;
     this.nav();
+    this.router.navigateByUrl('profile');
   }
 
   public startCall(): void {

@@ -1,17 +1,28 @@
 <div class="form">
+  <h2>Note Televisita</h2>
   <form (ngSubmit)="submit()">
 
-      <h3>Titolo</h3>
-      <input [(ngModel)]="title" name="titleInput" placeholder="Inserisci il titolo">
+      <h4>Titolo</h4>
+      <input class="form-control" [(ngModel)]="title" name="titleInput" placeholder="Inserisci il titolo">
 
-      <h4>Corpo del testo</h4>
-      <textarea [(ngModel)]="text" name="textInput" placeholder="Inserisci il corpo del testo" rows="6"></textarea>
+      <h4>Descrizione</h4>
+      <textarea class="form-control" [(ngModel)]="text" name="textInput" placeholder="Inserisci Descrizione" rows="6"></textarea>
       <br>
-      <button type="submit">Salva</button>
+      <input class="btn btn-primary" value="Salva" type="submit">
   </form>
+  <h2>Carica file</h2>
   <form (ngSubmit)="fileSubmit()">
-    <input type="file" name="myFile" (change)="selectFile($event)"/>
-    <input type="submit" />
+    
+  
+
+
+  <div class="mb-3">
+    
+    <input class="form-control" id="file-upload" type="file" name="myFile" (change)="selectFile($event)"/>
+
+  </div>
+    <input class="btn btn-primary" value="Carica" type="submit">
+  
     <p *ngIf="fileUplouded">File caricato</p>
   </form>
 

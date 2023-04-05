@@ -67,7 +67,7 @@ export class WebRTCComponent implements OnDestroy , OnInit{
     private documentService: DocumentService,
     private router: Router
   ) {
-    this.socket = io("https://"+environment.apiLocation+":8080");
+    this.socket = io("https://"+environment.apiLocation+ ":" + environment.apiPort);
   }
    nav(): void {
     if(this.navOpen == true){
@@ -100,7 +100,7 @@ export class WebRTCComponent implements OnDestroy , OnInit{
 
 
     });
-    
+
     this.startCall();
   }
   muted(): void {
@@ -158,7 +158,7 @@ export class WebRTCComponent implements OnDestroy , OnInit{
     if(this.callStarted){
       this.visitService.stopVisit(this.activatedRoute.snapshot.params["visitId"]).subscribe();
     }
-    
+
     this.navOpen=true;
     this.nav();
     this.router.navigateByUrl('profile');
@@ -183,7 +183,7 @@ export class WebRTCComponent implements OnDestroy , OnInit{
 
     this.socket.emit('join', this.room);
 
-    
+
     this.socket.on('private-message', (message: ServerMessage) => {
       console.log('private-message', message.type);
 

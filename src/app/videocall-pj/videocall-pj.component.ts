@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import Peer, { MediaConnection } from 'peerjs';
 import { environment } from 'src/environments/environment';
 import { UserService } from '../user/user.service';
@@ -26,7 +26,7 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
   callWasStarted = false;
 
 
-  constructor(private renderer: Renderer2, private userService: UserService, private visitService: VisitService, private activatedRoute: ActivatedRoute) {
+  constructor(private router: Router, private renderer: Renderer2, private userService: UserService, private visitService: VisitService, private activatedRoute: ActivatedRoute) {
     userService.getUserData().subscribe(resp => {
       if (resp.status == 200) {
         this.peer = new Peer(
@@ -71,6 +71,7 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
     this.mediaConnection.close();
     this.visitService.stopVisit(this.visitID).subscribe();
     this.startCallVisible = true;
+    this.router.navigateByUrl('profile');
   }
 
   getPeerId() {

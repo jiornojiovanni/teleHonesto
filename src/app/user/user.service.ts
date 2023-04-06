@@ -30,6 +30,15 @@ export class UserService {
     });
   }
 
+  getPatient(id_persona: number) {
+    const reqHeader = this.authService.getHeaderWithBearer();
+
+    return this.httpClient.post<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/patient',{id: id_persona}, {
+      headers: reqHeader,
+      observe: 'response'
+    });
+  }
+
   getAllPatients() {
     const reqHeader = this.authService.getHeaderWithBearer();
 

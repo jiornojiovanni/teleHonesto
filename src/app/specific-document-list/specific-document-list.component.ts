@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { DocumentService } from '../document/document.service';
+import { UserService } from '../user/user.service';
 
 @Component({
   selector: 'app-specific-document-list',
@@ -13,10 +14,20 @@ export class SpecificDocumentListComponent implements OnInit {
   documentList: any;
   displayedColumns: string[] = ['nome', 'creazione', 'link'];
   patientID: number = this.activatedRoute.snapshot.params["patientId"];
-  constructor(private documentService: DocumentService, private activatedRoute: ActivatedRoute) {}
+  patient: any = [''];
+  constructor(private documentService: DocumentService, private activatedRoute: ActivatedRoute, private userService: UserService) {}
 
   ngOnInit() {
     this.refreshList();
+
+    
+    this.userService.getPatient(this.patientID).subscribe(resp => {
+      
+      if(resp.status == 200) {
+      this.patient = resp.body;
+      
+      }
+    });
   }
 
   refreshList() {
@@ -26,6 +37,8 @@ export class SpecificDocumentListComponent implements OnInit {
       }
     });
   }
+
+
 
   goToLink($event: MouseEvent, link: string) {
     $event.preventDefault();

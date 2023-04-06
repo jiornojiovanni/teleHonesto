@@ -28,6 +28,31 @@ export class VisitService {
     });
   }
 
+  deleteVisit(id_visita: string) {
+    const reqHeader = this.authService.getHeaderWithBearer();
+
+    return this.httpClient.delete<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/visit', {
+      headers: reqHeader,
+      body: {
+        id_visita: id_visita
+      },
+      observe: 'response'
+    });
+  }
+
+  updateVisit(id_visita: string, newTime: string, newDate: string) {
+    const reqHeader = this.authService.getHeaderWithBearer();
+
+    return this.httpClient.post<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/visit', {
+      ora: newTime,
+      data: newDate,
+      id_visita: id_visita
+    },{
+      headers: reqHeader,
+      observe: 'response'
+    });
+  }
+
   getVisitPartecipants(visitID: number) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("visitID", visitID);

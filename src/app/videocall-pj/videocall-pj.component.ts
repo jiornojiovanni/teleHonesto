@@ -19,6 +19,7 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
   peer!: Peer;
   mediaConnection!: MediaConnection;
   stream!: MediaStream;
+  localStream!: MediaStream;
   startCallVisible = false;
   showForm = false;
   error = "";
@@ -84,6 +85,7 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
   muteVideo() {
     this.isVideoEnabled = !this.isVideoEnabled;
     this.stream.getVideoTracks()[0].enabled = this.isVideoEnabled;
+    this.localStream.getVideoTracks()[0].enabled = this.isVideoEnabled;
   }
 
   getPeerId() {
@@ -114,8 +116,9 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
 
   setupForCall() {
     this.getMediaStream().then(stream => {
+      this.localStream = stream;
       const video = this.localVideo.nativeElement;
-      this.renderer.setProperty(video, 'srcObject', stream);
+      this.renderer.setProperty(video, 'srcObject', this.localStream);
       video.play();
     });
 

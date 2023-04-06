@@ -14,18 +14,26 @@ export class SignupComponent {
   cognome: any;
   telefono: any;
   specializzazione: any;
+  caregiver: any;
   cap: any;
   provincia: any;
   tipo: any;
   data: any;
   specialistList: any;
+  caregiversList: any;
+
   constructor(private userService: UserService, private router: Router) {
     this.retrieveSpecialties();
+    this.retrieveCaregivers();
   }
 
   submit() {
     if(this.specializzazione === undefined) {
       this.specializzazione = "";
+    }
+
+    if(this.caregiver === undefined) {
+      this.caregiver = "";
     }
 
     this.userService.signup({
@@ -38,7 +46,8 @@ export class SignupComponent {
       provincia: this.provincia,
       cap: this.cap,
       tipo: this.tipo,
-      fk_specializzazione: this.specializzazione
+      fk_specializzazione: this.specializzazione,
+      fk_caregiver: this.caregiver
     }).subscribe(resp=> {
       if(resp.status == 200) {
         this.router.navigate(['']);
@@ -50,7 +59,14 @@ export class SignupComponent {
     this.userService.getSpecialties().subscribe(resp => {
       if(resp.status == 200) {
         this.specialistList = resp.body;
-        console.log(resp.body);
+      }
+    });
+  }
+
+  retrieveCaregivers() {
+    this.userService.getCaregivers().subscribe(resp => {
+      if(resp.status == 200) {
+        this.caregiversList = resp.body;
       }
     });
   }

@@ -65,4 +65,10 @@ export class UserService {
       observe: 'response'
     });
   }
+
+  getCaregivers() {
+    return this.httpClient.get<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/caregivers', {
+      observe: 'response'
+    });
+  }
 }

@@ -10,22 +10,22 @@
     <header class="p-3 mb-3 border-bottom sticky-top bd-navbar" >
       <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-          
-            
+
+
             <img src="./assets/images/logo.png"  width="12%" role="img">
-          
-  
+
+
           <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
             <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
             <li><a href="#" class="nav-link px-2 link-body-emphasis">Documenti</a></li>
-            
+
           </ul>
-  
-          
+
+
 
 
           <div class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 ">{{user.name}} {{user.surname}}</div>
-  
+
           <div class="dropdown text-end">
             <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
               <img src="./assets/images/avatar.png" alt="mdo" width="32" height="32" class="rounded-circle">
@@ -47,12 +47,12 @@
   <div class="container-xxl bd-gutter">
     <div class="box-container">
       <div class="col-md-7 col-lg-8">
-        
-    
+
+
           <form  class="needs-validation" novalidate (ngSubmit)="onSubmit()" #Visitform="ngForm" *ngIf="user.tipo==='medico'">
           <h4 class="mb-3">Programma una visita</h4>
           <div class="row gy-3">
-            
+
             <div class="col-md-3">
               <label class="form-label" for="dataVisita">Data</label>
               <input type="date" class="form-control" name="dataVisita" id="dataVisita" required="" [(ngModel)]="visit.visitDate">
@@ -65,7 +65,7 @@
               <label class="form-label" for="oraVisita">Ora</label>
         <input type="time" name="oraVisita" class="form-control" id="oraVisita" required="" [(ngModel)]="visit.visitTime">
 
-              
+
               <div class="invalid-feedback">
                 Inserisci Ora
               </div>
@@ -74,20 +74,29 @@
           <div class="my-3">
             <label class="form-label" for="callMethod">Seleziona tipo chiamata</label>
             <div class="form-check">
-              <input id="paziente" name="callMethod" type="radio" class="form-check-input" checked="" required="">
+              <input id="paziente" name="callMethod" type="radio" class="form-check-input"  value="paziente" required="" [(ngModel)]="selectedValue">
               <label class="form-check-label" for="paziente">Paziente</label>
             </div>
             <div class="form-check">
-              <input id="medico" name="callMethod" type="radio" class="form-check-input"  required="">
+              <input id="medico" name="callMethod" type="radio" class="form-check-input" value="medico" required="" [(ngModel)]="selectedValue">
               <label class="form-check-label" for="medico">Medico</label>
             </div>
             <div class="row gy-3">
             <div class="col-md-6">
               <label class="form-label" for="type">Seleziona il paziente</label>
-            <select [(ngModel)]="visit.visitEmail" class="form-control" name="patient" id="type" required>
-              <option value="{{undefined}}" selected disabled>Scegli un paziente</option>
-              <option *ngFor="let patient of patientList" value="{{patient.mail}}">{{patient.nome + " " + patient.cognome + " - " + patient.mail }}</option>
-            </select>
+            <div *ngIf="selectedValue==='paziente';then listaPazienti else listaMedici"></div>
+            <ng-template #listaPazienti>
+              <select [(ngModel)]="visit.visitEmail" class="form-control" name="patient" id="type" required>
+                <option value="{{undefined}}" selected disabled>Scegli un paziente</option>
+                <option *ngFor="let patient of patientList" value="{{patient.mail}}">{{patient.nome + " " + patient.cognome + " - " + patient.mail }}</option>
+              </select>
+            </ng-template>
+            <ng-template #listaMedici>
+              <select [(ngModel)]="visit.visitEmail" class="form-control" name="medic" id="type" required>
+                <option value="{{undefined}}" selected disabled>Scegli un medico</option>
+                <option *ngFor="let medic of medicList" value="{{medic.mail}}">{{medic.nome + " " + medic.cognome + " - " + medic.mail }}</option>
+              </select>
+            </ng-template>
           </div>
 
             <!-- <div class="my-3">

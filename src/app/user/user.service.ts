@@ -59,4 +59,10 @@ export class UserService {
       observe: 'response'
     });
   }
+
+  getDoctors() {
+    return this.httpClient.get<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/doctors', {
+      observe: 'response'
+    });
+  }
 }

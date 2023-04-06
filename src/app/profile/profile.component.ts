@@ -15,7 +15,9 @@ export class ProfileComponent implements OnInit {
   user: User = new User('', '', '', 0, '');
   visit = new Visit('', '', '', '');
   success = false;
+  selectedValue = "paziente";
   patientList: any;
+  medicList: any;
   @ViewChild(VisitListComponent) visitList!:VisitListComponent;
 
   constructor(private authService: AuthService, private userService: UserService, private visitService: VisitService) {}
@@ -27,6 +29,12 @@ export class ProfileComponent implements OnInit {
         if(resp.body.tipo == "medico") {
           this.userService.getAllPatients().subscribe(resp => {
             this.patientList = resp.body;
+          });
+
+          this.userService.getDoctors().subscribe(resp => {
+            this.medicList = resp.body.filter((medic: { id_persona: number; }) => {
+              return medic.id_persona != this.user.id_persona;
+            });
           });
         }
       }

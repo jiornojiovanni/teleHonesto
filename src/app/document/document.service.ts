@@ -9,10 +9,10 @@ import { AuthService } from '../auth/auth.service';
 export class DocumentService {
   constructor(private authService: AuthService, private httpClient: HttpClient) {}
 
-  saveDocument(title: string, text: string, visitID: number, type: number) {
+  saveDocument(title: string, text: string, visitID: number) {
     const reqHeader = this.authService.getHeaderWithBearer();
 
-    return this.httpClient.post<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/createdoc', {title: title, text: text, visitID: visitID, type: type}, {
+    return this.httpClient.post<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/createdoc', {title: title, text: text, visitID: visitID}, {
       headers: reqHeader,
       observe: 'response'
     });

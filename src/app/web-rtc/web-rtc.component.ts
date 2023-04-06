@@ -352,8 +352,7 @@ export class WebRTCComponent implements OnDestroy , OnInit{
   }
 
   submit() {
-    const tipoAnamnesi = 2;
-    this.documentService.saveDocument(this.title, this.text, this.activatedRoute.snapshot.params["visitId"], tipoAnamnesi).subscribe(resp => {
+    this.documentService.saveDocument(this.title, this.text, this.activatedRoute.snapshot.params["visitId"]).subscribe(resp => {
       if (resp.status == 200) {
         window.open("https://" + environment.apiLocation + ":" + environment.apiPort + resp.body.uri, "_blank");
       }

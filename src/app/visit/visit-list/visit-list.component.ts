@@ -9,8 +9,9 @@ import { VisitService } from '../visit.service';
 export class VisitListComponent implements OnInit {
   @Input() id_persona: number | undefined;
   visitList: any;
-  displayedColumns: string[] = ['nome','data', 'ora', 'stato', 'peerjs', 'webrtc'];
+  displayedColumns: string[] = ['nome', 'tipologia','data', 'ora', 'stato', 'peerjs', 'webrtc'];
   names: string[] = [];
+  types: string[] = [];
   constructor(private visitService: VisitService) {}
 
   ngOnInit() {
@@ -33,8 +34,10 @@ export class VisitListComponent implements OnInit {
     this.visitService.getVisitName(visitid).subscribe(resp => {
       if(resp.status == 200) {
         this.names[visitid] = resp.body.nome + " " + resp.body.cognome;
+        this.types[visitid] = resp.body.tipo;
       } else {
         this.names[visitid] = "";
+        this.types[visitid] = "";
       }
     });
   }

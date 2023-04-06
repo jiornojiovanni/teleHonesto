@@ -20,6 +20,11 @@
                         <td mat-cell *matCellDef="let visita">{{ names[visita.id_visita] }}</td>
                       </ng-container>
 
+                      <ng-container matColumnDef="tipologia">
+                        <th mat-header-cell *matHeaderCellDef class="t-op">Tipologia</th>
+                        <td mat-cell *matCellDef="let visita">{{ types[visita.id_visita] }}</td>
+                      </ng-container>
+
                       <ng-container matColumnDef="data">
                         <th mat-header-cell *matHeaderCellDef class="t-op">Data programmata</th>
                         <td mat-cell *matCellDef="let visita">{{ visita.data_programmata | date:'dd/MM/YYYY' }}</td>

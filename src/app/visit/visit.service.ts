@@ -19,6 +19,16 @@ export class VisitService {
     });
   }
 
+  
+
+  getRangeVisitList(pageIndex: number, pageSize: number) {
+    const reqHeader = this.authService.getHeaderWithBearer();
+    return this.httpClient.post<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/visitRange', { pageSize: pageSize, pageIndex:pageIndex}, {
+      headers: reqHeader,
+      observe: 'response'
+    });
+  }
+
   createVisit(visit: Visit) {
     const reqHeader = this.authService.getHeaderWithBearer();
 

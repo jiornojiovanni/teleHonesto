@@ -20,6 +20,7 @@ import { DocumentListComponent } from './document/document-list/document-list.co
 import { SignupComponent } from './signup/signup.component';
 import { PatientListComponent } from './patients/patient-list/patient-list.component';
 import { SpecificDocumentListComponent } from './specific-document-list/specific-document-list.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { SpecificDocumentListComponent } from './specific-document-list/specific
     MatButtonModule,
     MatInputModule,
     MatFormFieldModule,
+    MatPaginatorModule,
     BrowserAnimationsModule,
     NgxWebrtcModule.forRoot({
       userIdentifier: 'id',

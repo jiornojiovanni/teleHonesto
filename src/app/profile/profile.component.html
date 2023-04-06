@@ -1,35 +1,115 @@
-<header>
-    <div class="logosec">
+
+    <!-- <div class="logosec">
       <img src="assets/images/logo.png" class="logo"/>
     </div>
     <div>{{user.name}} {{user.surname}}</div>
     <a (click)="onLogout()" routerLink="/">
       Logout
-    </a>
-  </header>
-  <div class="main-container">
+    </a> -->
+
+    <header class="p-3 mb-3 border-bottom sticky-top bd-navbar" >
+      <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+          
+            
+            <img src="./assets/images/logo.png"  width="12%" role="img">
+          
+  
+          <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
+            <li><a href="#" class="nav-link px-2 link-body-emphasis">Documenti</a></li>
+            
+          </ul>
+  
+          
+
+
+          <div class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 ">{{user.name}} {{user.surname}}</div>
+  
+          <div class="dropdown text-end">
+            <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="./assets/images/avatar.png" alt="mdo" width="32" height="32" class="rounded-circle">
+            </a>
+            <ul class="dropdown-menu text-small">
+              <!-- <li><a class="dropdown-item" href="#">Impostazioni</a></li>
+              <li><a class="dropdown-item" href="#">Profilo</a></li>
+              <li><hr class="dropdown-divider"></li> -->
+              <li><a class="dropdown-item" (click)="onLogout()" routerLink="/">Esci</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+
+
+
+<main class="bd-content order-1 py-5">
+  <div class="container-xxl bd-gutter">
     <div class="box-container">
-      <form (ngSubmit)="onSubmit()" #Visitform="ngForm" *ngIf="user.tipo==='medico'">
-        <h2>Programma una visita</h2>
-        <label for="dataVisita">Data programmata della visita</label>
-        <input type="date" name="dataVisita" id="dataVisita" required [(ngModel)]="visit.visitDate"><br>
+      <div class="col-md-7 col-lg-8">
+        
+    
+          <form  class="needs-validation" novalidate (ngSubmit)="onSubmit()" #Visitform="ngForm" *ngIf="user.tipo==='medico'">
+          <h4 class="mb-3">Programma una visita</h4>
+          <div class="row gy-3">
+            
+            <div class="col-md-3">
+              <label class="form-label" for="dataVisita">Data</label>
+              <input type="date" class="form-control" name="dataVisita" id="dataVisita" required="" [(ngModel)]="visit.visitDate">
+              <div class="invalid-feedback">
+                Inserisci Data
+              </div>
+            </div>
 
-        <label for="oraVisita">Ora programmata della visita</label>
-        <input type="time" name="oraVisita" id="oraVisita" required [(ngModel)]="visit.visitTime"><br>
+            <div class="col-md-3">
+              <label class="form-label" for="oraVisita">Ora</label>
+        <input type="time" name="oraVisita" class="form-control" id="oraVisita" required="" [(ngModel)]="visit.visitTime">
 
-        <select [(ngModel)]="visit.visitEmail" class="form-control form-control-lg" name="patient" id="type" required>
-          <option value="{{undefined}}" selected disabled>Scegli un paziente</option>
-          <option *ngFor="let patient of patientList" value="{{patient.mail}}">{{patient.nome + " " + patient.cognome + " - " + patient.mail }}</option>
-        </select>
+              
+              <div class="invalid-feedback">
+                Inserisci Ora
+              </div>
+            </div>
+          </div>
+          <div class="my-3">
+            <label class="form-label" for="callMethod">Seleziona tipo chiamata</label>
+            <div class="form-check">
+              <input id="paziente" name="callMethod" type="radio" class="form-check-input" checked="" required="">
+              <label class="form-check-label" for="paziente">Paziente</label>
+            </div>
+            <div class="form-check">
+              <input id="medico" name="callMethod" type="radio" class="form-check-input"  required="">
+              <label class="form-check-label" for="medico">Medico</label>
+            </div>
+            <div class="row gy-3">
+            <div class="col-md-6">
+              <label class="form-label" for="type">Seleziona il paziente</label>
+            <select [(ngModel)]="visit.visitEmail" class="form-control" name="patient" id="type" required>
+              <option value="{{undefined}}" selected disabled>Scegli un paziente</option>
+              <option *ngFor="let patient of patientList" value="{{patient.mail}}">{{patient.nome + " " + patient.cognome + " - " + patient.mail }}</option>
+            </select>
+          </div>
 
-        <button type="submit" [disabled]="Visitform.form.invalid || !visit.visitEmail">
-          Invio
-        </button>
+            <!-- <div class="my-3">
+              <label class="form-label" for="type">Seleziona il medico</label><select [(ngModel)]="visit.visitEmail" class="form-control form-control-lg" name="patient" id="type" required>
+              <option value="{{undefined}}" selected disabled>Scegli un medico</option>
+              <option *ngFor="let patient of patientList" value="{{patient.mail}}">{{patient.nome + " " + patient.cognome + " - " + patient.mail }}</option>
+            </select>  </div>-->
+          </div>
+          </div>
 
-        <label *ngIf="success">Visita creata con successo!</label>
-      </form>
+          <hr class="my-4">
+
+          <button class="w-100 btn btn-primary btn-lg" type="submit" [disabled]="Visitform.form.invalid || !visit.visitEmail">
+            Crea Visita
+          </button>
+          <label class="form-label" *ngIf="success">Visita creata con successo!</label>
+        </form>
+      </div>
+
     </div>
     <app-visit-list [id_persona]="user.id_persona"></app-visit-list>
     <app-document-list *ngIf="user.tipo!=='medico'"></app-document-list>
     <app-patient-list *ngIf="user.tipo==='medico'"></app-patient-list>
   </div>
+</main>

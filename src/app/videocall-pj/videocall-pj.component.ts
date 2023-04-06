@@ -18,13 +18,15 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
   visitID = this.activatedRoute.snapshot.params["visitId"];
   peer!: Peer;
   mediaConnection!: MediaConnection;
-
+  stream!: MediaStream;
   startCallVisible = false;
   showForm = false;
   error = "";
   showLoading = false;
   callWasStarted = false;
 
+  isMicEnabled = true;
+  isVideoEnabled = true;
 
   constructor(private router: Router, private renderer: Renderer2, private userService: UserService, private visitService: VisitService, private activatedRoute: ActivatedRoute) {
     userService.getUserData().subscribe(resp => {
@@ -74,13 +76,24 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
     this.router.navigateByUrl('profile');
   }
 
+  muteAudio() {
+    this.isMicEnabled = !this.isMicEnabled;
+    this.stream.getAudioTracks()[0].enabled = this.isMicEnabled;
+  }
+
+  muteVideo() {
+    this.isVideoEnabled = !this.isVideoEnabled;
+    this.stream.getVideoTracks()[0].enabled = this.isVideoEnabled;
+  }
+
   getPeerId() {
     return this.peer.id;
   }
 
   async call(peerId: string) {
-    const stream = await this.getMediaStream();
-    this.mediaConnection = this.peer.call(peerId, stream, {metadata: {visit: this.visitID}});
+    this.stream = await this.getMediaStream();
+    this.mediaConnection = this.peer.call(peerId, this.stream, {metadata: {visit: this.visitID}});
+
     this.mediaConnection.on('stream', (remoteStream: MediaStream) => {
       this.visitService.updateJoinTime(this.visitID).subscribe();
       this.visitService.startVisit(this.visitID).subscribe();
@@ -115,14 +128,14 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
     });
 
     this.peer.on('call', async (call: MediaConnection) => {
-      const stream = await this.getMediaStream();
+      this.stream = await this.getMediaStream();
       this.mediaConnection = call;
 
       //If the visit id of the call does not correspond to the current visit id we do not answer because it's a different visit.
       if(this.mediaConnection.metadata.visit != this.visitID)
         return;
 
-      this.mediaConnection.answer(stream);
+      this.mediaConnection.answer(this.stream);
       this.startCallVisible = false;
 
       this.mediaConnection.on('stream', (remoteStream: MediaStream) => {

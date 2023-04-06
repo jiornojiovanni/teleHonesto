@@ -8,8 +8,8 @@
       <div id="controls">
         <button id="start-call" class="button" *ngIf="startCallVisible" (click)="startCall()">Avvia chiamata</button>
         <button id="end-call" class="button" *ngIf="!startCallVisible" (click)="endCall()">Fine chiamata</button>
-        <button id="mute-audio" class="button">Disattiva audio</button>
-        <button id="mute-video" class="button">Disattiva video</button>
+        <button id="mute-audio" (click)="muteAudio()" class="button">{{ isMicEnabled ? "Disabilita microfono" : "Abilita microfono"}}</button>
+        <button id="mute-video" (click)="muteVideo()" class="button">{{ isVideoEnabled ? "Disabilita webcam" : "Abilita webcam"}}</button>
       </div>
     </div><div class="form">
     <app-call-form [visitID]="visitID"></app-call-form>

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { User } from '../user';
 import { UserService } from '../user/user.service';
 import { Visit } from '../visit';
+import { VisitListComponent } from '../visit/visit-list/visit-list.component';
 import { VisitService } from '../visit/visit.service';
 
 @Component({
@@ -15,6 +16,7 @@ export class ProfileComponent implements OnInit {
   visit = new Visit('', '', '', '');
   success = false;
   patientList: any;
+  @ViewChild(VisitListComponent) visitList!:VisitListComponent;
 
   constructor(private authService: AuthService, private userService: UserService, private visitService: VisitService) {}
 
@@ -39,6 +41,7 @@ export class ProfileComponent implements OnInit {
     this.visitService.createVisit(this.visit).subscribe(resp => {
       if(resp.status == 200) {
         this.success = true;
+        this.visitList.refreshList();
       }
     });
 

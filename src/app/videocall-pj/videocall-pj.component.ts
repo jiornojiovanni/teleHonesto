@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import Peer, { MediaConnection } from 'peerjs';
 import { environment } from 'src/environments/environment';
@@ -20,7 +20,6 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
   mediaConnection!: MediaConnection;
   stream!: MediaStream;
   localStream!: MediaStream;
-  startCallVisible = false;
   showForm = false;
   error = "";
   showLoading = false;
@@ -29,7 +28,7 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
   isMicEnabled = true;
   isVideoEnabled = true;
 
-  constructor(private router: Router, private renderer: Renderer2, private userService: UserService, private visitService: VisitService, private activatedRoute: ActivatedRoute) {
+  constructor(private zone: NgZone, private router: Router, private renderer: Renderer2, private userService: UserService, private visitService: VisitService, private activatedRoute: ActivatedRoute) {
     userService.getUserData().subscribe(resp => {
       if (resp.status == 200) {
         this.peer = new Peer(
@@ -101,13 +100,17 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
       this.visitService.updateJoinTime(this.visitID).subscribe();
       this.visitService.startVisit(this.visitID).subscribe();
       this.callWasStarted = true;
-      this.startCallVisible = false;
       this.showLoading = false;
       this.showVideoStream(remoteStream);
     });
 
     this.mediaConnection.on('close', () => {
+      console.log("close");
       this.stopRemoteVideo();
+
+      this.zone.run(() => {
+        this.router.navigateByUrl('profile');
+      });
     });
   }
 
@@ -140,7 +143,6 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
         return;
 
       this.mediaConnection.answer(this.stream);
-      this.startCallVisible = false;
 
       this.mediaConnection.on('stream', (remoteStream: MediaStream) => {
         this.visitService.updateJoinTime(this.visitID).subscribe();
@@ -151,7 +153,11 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
       });
 
       this.mediaConnection.on('close', () => {
+        console.log("close");
         this.stopRemoteVideo();
+        this.zone.run(() => {
+          this.router.navigateByUrl('profile');
+        });
       });
     });
   }
@@ -160,7 +166,6 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
     this.remoteVideo.nativeElement.pause();
     this.remoteVideo.nativeElement.removeAttribute('src');
     this.remoteVideo.nativeElement.load();
-    this.startCallVisible = true;
   }
 
   private showVideoStream(remoteStream: MediaStream) {

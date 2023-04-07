@@ -6,8 +6,7 @@
         <video id="local-video" #localVideo [muted]="true"></video>
       </div>
       <div id="controls">
-        <button id="start-call" class="button" *ngIf="startCallVisible" (click)="startCall()">Avvia chiamata</button>
-        <button id="end-call" class="button" *ngIf="!startCallVisible" (click)="endCall()">Fine chiamata</button>
+        <button id="end-call" class="button" (click)="endCall()">Fine chiamata</button>
         <button id="mute-audio" (click)="muteAudio()" class="button">{{ isMicEnabled ? "Disabilita microfono" : "Abilita microfono"}}</button>
         <button id="mute-video" (click)="muteVideo()" class="button">{{ isVideoEnabled ? "Disabilita webcam" : "Abilita webcam"}}</button>
       </div>

@@ -1,5 +1,6 @@
 <app-header></app-header>
-<main>
+<main class="bd-content order-1 py-5">
+  <app-visit-list *ngIf="tipo === 'caregiver'" [id_persona]="patientID"></app-visit-list>
 <div class="main-container">
   <div class="main">
     <div class="report-container">
@@ -29,7 +30,7 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
       </div>
-      <app-visit-list *ngIf="tipo === 'caregiver'" [id_persona]="patientID"></app-visit-list>
+      
     </div>
   </div>
 </div>

@@ -21,6 +21,7 @@ import { SignupComponent } from './signup/signup.component';
 import { PatientListComponent } from './patients/patient-list/patient-list.component';
 import { SpecificDocumentListComponent } from './specific-document-list/specific-document-list.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     CallFormComponent,
     DocumentListComponent,
     PatientListComponent,
-    SpecificDocumentListComponent
+    SpecificDocumentListComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

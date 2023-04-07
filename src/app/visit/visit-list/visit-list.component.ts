@@ -27,14 +27,15 @@ export class VisitListComponent implements OnInit {
   ngOnInit() {
     this.refreshList();
     this.dataSource = new MatTableDataSource(this.visitList);
+  }
+
+  refreshList() {
     this.visitService.getCountVisitList().subscribe(resp => {
       if(resp.status == 200) {
         this.length = resp.body.conto;
       }
     });
-  }
 
-  refreshList() {
     this.visitService.getRangeVisitList(this.pageIndex, this.pageSize).subscribe(resp => {
         if (resp.status == 200 && resp.body != null) {
             this.visitList = resp.body;

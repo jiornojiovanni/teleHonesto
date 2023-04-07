@@ -71,9 +71,10 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
   }
 
   endCall() {
-    this.mediaConnection.close();
-    this.visitService.stopVisit(this.visitID).subscribe();
-    this.startCallVisible = true;
+    if(this.mediaConnection != undefined) {
+      this.mediaConnection.close();
+      this.visitService.stopVisit(this.visitID).subscribe();
+    }
     this.router.navigateByUrl('profile');
   }
 

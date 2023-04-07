@@ -92,6 +92,7 @@ export class VideocallPJComponent implements OnDestroy{
     this.stream = await this.getMediaStream();
     this.mediaConnection = this.peer.call(peerId, this.stream, {metadata: {visit: this.visitID}});
 
+    //This gets called two times thanks to a library bug, ignore the browser errors https://github.com/peers/peerjs/issues/609
     this.mediaConnection.on('stream', (remoteStream: MediaStream) => {
       this.visitService.updateJoinTime(this.visitID).subscribe();
       this.visitService.startVisit(this.visitID).subscribe();
@@ -143,6 +144,7 @@ export class VideocallPJComponent implements OnDestroy{
 
       this.mediaConnection.answer(this.stream);
 
+      //This gets called two times thanks to a library bug, ignore the browser errors https://github.com/peers/peerjs/issues/609
       this.mediaConnection.on('stream', (remoteStream: MediaStream) => {
         this.visitService.updateJoinTime(this.visitID).subscribe();
         this.visitService.startVisit(this.visitID).subscribe();

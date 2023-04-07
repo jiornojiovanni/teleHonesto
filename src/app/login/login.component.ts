@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit{
   showError: any = false;
 
   constructor(private authService: AuthService, private router: Router) {}
- 
+
   ngOnInit() {
     if(this.authService.isAuthenticated()) {
       this.router.navigate(['profile']);
@@ -24,9 +24,9 @@ export class LoginComponent implements OnInit{
       if(resp.status == 200) {
         this.authService.setToken(resp.body.token, resp.body.expiresIn);
         this.router.navigate(['profile']);
-      } else {
-        this.showError = true;
       }
+    }, error => {
+        this.showError = true;
     });
   }
 

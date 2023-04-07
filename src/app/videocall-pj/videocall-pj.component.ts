@@ -10,7 +10,7 @@ import { VisitService } from '../visit/visit.service';
   templateUrl: './videocall-pj.component.html',
   styleUrls: ['./videocall-pj.component.scss'],
 })
-export class VideocallPJComponent implements OnDestroy, OnInit{
+export class VideocallPJComponent implements OnDestroy{
 
   @ViewChild('remoteVideo') remoteVideo?: any;
   @ViewChild('localVideo') localVideo?: any;
@@ -54,10 +54,6 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
     if(this.callWasStarted) {
       this.visitService.stopVisit(this.visitID).subscribe();
     }
-  }
-
-  ngOnInit(): void {
-    this.startCall();
   }
 
   startCall() {
@@ -118,11 +114,11 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
   }
 
   setupForCall() {
-    this.getMediaStream().then(stream => {
+    this.getMediaStream().then(async stream => {
       this.localStream = stream;
       const video = this.localVideo.nativeElement;
       this.renderer.setProperty(video, 'srcObject', this.localStream);
-      video.play();
+      await video.play();
     });
 
     this.peer.on('error', (err: any) => {
@@ -131,6 +127,10 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
       if(err.type == 'peer-unavailable')
         this.startCall();
         this.showLoading = true;
+    });
+
+    this.peer.on('open',  () => {
+      this.startCall();
     });
 
     this.peer.on('call', async (call: MediaConnection) => {
@@ -166,9 +166,9 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
     this.remoteVideo.nativeElement.load();
   }
 
-  private showVideoStream(remoteStream: MediaStream) {
+  private async showVideoStream(remoteStream: MediaStream) {
     const video = this.remoteVideo.nativeElement;
     this.renderer.setProperty(video, 'srcObject', remoteStream);
-    video.play();
+    await video.play();
   }
 }

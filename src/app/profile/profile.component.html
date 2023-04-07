@@ -117,8 +117,8 @@
       </div>
 
     </div>
-    <app-visit-list [id_persona]="user.id_persona"></app-visit-list>
-    <app-document-list *ngIf="user.tipo!=='medico'"></app-document-list>
-    <app-patient-list *ngIf="user.tipo==='medico'"></app-patient-list>
+    <app-visit-list *ngIf="user.tipo!=='caregiver'"></app-visit-list>
+    <app-document-list *ngIf="user.tipo==='paziente'"></app-document-list>
+    <app-patient-list *ngIf="user.tipo!=='paziente'"></app-patient-list>
   </div>
 </main>

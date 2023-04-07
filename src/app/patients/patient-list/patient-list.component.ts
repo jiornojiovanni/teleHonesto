@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { PatientService } from '../patient.service';
+import { UserService } from 'src/app/user/user.service';
 
 
 @Component({
@@ -11,20 +12,33 @@ import { PatientService } from '../patient.service';
 export class PatientListComponent implements OnInit {
   patientList: any;
   displayedColumns: string[] = ['nome', 'cognome', 'email', 'link'];
+  tipo = "";
 
-
-  constructor(private patientService: PatientService) {}
+  constructor(private patientService: PatientService, private userService: UserService) {}
 
   ngOnInit() {
-    this.refreshList();
+    this.userService.getUserData().subscribe(resp => {
+      if(resp.status == 200) {
+        this.tipo = resp.body.tipo;
+        this.refreshList();
+      }
+    });
   }
 
   refreshList() {
-    this.patientService.getPatients().subscribe(resp => {
-      if(resp.status == 200) {
-        this.patientList = resp.body;
-      }
-    });
+    if (this.tipo == "medico") {
+      this.patientService.getPatients().subscribe(resp => {
+        if(resp.status == 200) {
+          this.patientList = resp.body;
+        }
+      });
+    } else {
+      this.userService.getAssistedPeople().subscribe(resp => {
+        if(resp.status == 200) {
+          this.patientList = resp.body;
+        }
+      });
+    }
   }
 
   goToLink($event: any, link: string) {

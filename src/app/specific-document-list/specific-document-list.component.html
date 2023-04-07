@@ -27,6 +27,7 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
       </div>
+      <app-visit-list *ngIf="tipo === 'caregiver'" [id_persona]="patientID"></app-visit-list>
     </div>
   </div>
 </div>

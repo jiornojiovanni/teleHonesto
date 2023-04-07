@@ -16,16 +16,21 @@ export class SpecificDocumentListComponent implements OnInit {
   patientID: number = this.activatedRoute.snapshot.params["patientId"];
   patient: any = [''];
   constructor(private documentService: DocumentService, private activatedRoute: ActivatedRoute, private userService: UserService) {}
+  tipo = "medico";
 
   ngOnInit() {
     this.refreshList();
+    this.userService.getUserData().subscribe(resp => {
+      if(resp.status == 200) {
+        this.tipo = resp.body.tipo;
+      }
+    });
 
-    
     this.userService.getPatient(this.patientID).subscribe(resp => {
-      
+
       if(resp.status == 200) {
       this.patient = resp.body;
-      
+
       }
     });
   }

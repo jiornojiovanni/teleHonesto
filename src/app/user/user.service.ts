@@ -71,4 +71,13 @@ export class UserService {
       observe: 'response'
     });
   }
+
+  getAssistedPeople() {
+    const reqHeader = this.authService.getHeaderWithBearer();
+
+    return this.httpClient.get<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/peopleassisted', {
+      headers: reqHeader,
+      observe: 'response'
+    });
+  }
 }

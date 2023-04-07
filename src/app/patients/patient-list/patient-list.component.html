@@ -2,7 +2,7 @@
     <div class="main">
       <div class="report-container">
         <div class="report-header">
-          <h1 class="patients">Pazienti</h1>
+          <h1 class="patients">{{tipo === "medico" ? "Pazienti" : "Assistiti"}}</h1>
           <button mat-raised-button (click)="refreshList()">Aggiorna lista</button>
         </div>
         <div class="report-body">

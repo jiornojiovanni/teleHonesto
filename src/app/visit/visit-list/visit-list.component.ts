@@ -30,23 +30,42 @@ export class VisitListComponent implements OnInit {
   }
 
   refreshList() {
-    this.visitService.getCountVisitList().subscribe(resp => {
-      if(resp.status == 200) {
-        this.length = resp.body.conto;
-      }
-    });
-
-    this.visitService.getRangeVisitList(this.pageIndex, this.pageSize).subscribe(resp => {
-        if (resp.status == 200 && resp.body != null) {
-            this.visitList = resp.body;
-            this.datasource = this.visitList.data;
-
-            this.visitList.forEach((element: { id_visita: number; }) => {
-                this.getVisitName(element.id_visita);
-            });
+    if (this.id_persona == undefined) {
+      this.visitService.getCountVisitList().subscribe(resp => {
+        if (resp.status == 200) {
+          this.length = resp.body.conto;
         }
-    });
-}
+      });
+
+      this.visitService.getRangeVisitList(this.pageIndex, this.pageSize).subscribe(resp => {
+        if (resp.status == 200 && resp.body != null) {
+          this.visitList = resp.body;
+          this.datasource = this.visitList.data;
+
+          this.visitList.forEach((element: { id_visita: number; }) => {
+            this.getVisitName(element.id_visita);
+          });
+        }
+      });
+    } else {
+      this.visitService.getCountVisitListSpecificUser(this.id_persona).subscribe(resp => {
+        if (resp.status == 200) {
+          this.length = resp.body.conto;
+        }
+      });
+
+      this.visitService.getRangeVisitListSpecificUser(this.id_persona, this.pageIndex, this.pageSize).subscribe(resp => {
+        if (resp.status == 200 && resp.body != null) {
+          this.visitList = resp.body;
+          this.datasource = this.visitList.data;
+
+          this.visitList.forEach((element: { id_visita: number; }) => {
+            this.getVisitName(element.id_visita);
+          });
+        }
+      });
+    }
+  }
 
 
 onPageChange(event: PageEvent) {

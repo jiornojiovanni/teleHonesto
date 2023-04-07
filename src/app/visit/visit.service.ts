@@ -37,6 +37,22 @@ export class VisitService {
     });
   }
 
+  getRangeVisitListSpecificUser(user_id: number,pageIndex: number, pageSize: number) {
+    const reqHeader = this.authService.getHeaderWithBearer();
+    return this.httpClient.post<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/visitRange', { pageSize: pageSize, pageIndex:pageIndex, user_id: user_id}, {
+      headers: reqHeader,
+      observe: 'response'
+    });
+  }
+
+  getCountVisitListSpecificUser(user_id: number) {
+    const reqHeader = this.authService.getHeaderWithBearer();
+    return this.httpClient.get<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/visitCount?user=' + user_id, {
+      headers: reqHeader,
+      observe: 'response'
+    });
+  }
+
   createVisit(visit: Visit) {
     const reqHeader = this.authService.getHeaderWithBearer();
 

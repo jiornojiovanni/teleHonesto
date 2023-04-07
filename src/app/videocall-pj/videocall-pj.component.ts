@@ -105,7 +105,6 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
     });
 
     this.mediaConnection.on('close', () => {
-      console.log("close");
       this.stopRemoteVideo();
 
       this.zone.run(() => {
@@ -153,7 +152,6 @@ export class VideocallPJComponent implements OnDestroy, OnInit{
       });
 
       this.mediaConnection.on('close', () => {
-        console.log("close");
         this.stopRemoteVideo();
         this.zone.run(() => {
           this.router.navigateByUrl('profile');

@@ -8,28 +8,30 @@ import { MatTableDataSource } from '@angular/material/table';
   templateUrl: './visit-list.component.html',
   styleUrls: ['./visit-list.component.scss']
 })
-export class VisitListComponent implements OnInit, AfterViewInit {
+export class VisitListComponent implements OnInit {
   @Input() id_persona: number | undefined;
   visitList: any;
   pageEvent: PageEvent | undefined;
-datasource: null | undefined;
-pageIndex=0;
-pageSize=5;
-length:number | undefined;
+  datasource: null | undefined;
+  pageSizeOptions = [5, 10, 25];
+  showPageSizeOptions = true;
+  length: any;
+  pageSize = 5;
+  pageIndex = 0;
   displayedColumns: string[] = ['nome', 'tipologia','data', 'ora', 'stato', 'peerjs', 'webrtc'];
   names: string[] = [];
   types: string[] = [];
-  @ViewChild(MatPaginator) paginator: MatPaginator | undefined ;
   dataSource: any;
-
-  ngAfterViewInit() {
-    this.visitList.paginator = this.paginator;
-  }
   constructor(private visitService: VisitService) {}
 
   ngOnInit() {
     this.refreshList();
     this.dataSource = new MatTableDataSource(this.visitList);
+    this.visitService.getCountVisitList().subscribe(resp => {
+      if(resp.status == 200) {
+        this.length = resp.body.conto;
+      }
+    });
   }
 
   refreshList() {
@@ -37,9 +39,7 @@ length:number | undefined;
         if (resp.status == 200 && resp.body != null) {
             this.visitList = resp.body;
             this.datasource = this.visitList.data;
-            this.pageIndex = this.visitList.pageIndex;
-            this.pageSize = this.visitList.pageSize;
-            this.length = this.visitList.length;
+
             this.visitList.forEach((element: { id_visita: number; }) => {
                 this.getVisitName(element.id_visita);
             });
@@ -49,9 +49,10 @@ length:number | undefined;
 
 
 onPageChange(event: PageEvent) {
-  console.table(event);
-  this.pageIndex = event.pageIndex;
+  this.pageEvent = event;
+  this.length = event.length;
   this.pageSize = event.pageSize;
+  this.pageIndex = event.pageIndex;
   this.refreshList();
   return event;
 }

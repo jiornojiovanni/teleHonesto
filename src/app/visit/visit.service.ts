@@ -19,11 +19,19 @@ export class VisitService {
     });
   }
 
-  
+
 
   getRangeVisitList(pageIndex: number, pageSize: number) {
     const reqHeader = this.authService.getHeaderWithBearer();
     return this.httpClient.post<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/visitRange', { pageSize: pageSize, pageIndex:pageIndex}, {
+      headers: reqHeader,
+      observe: 'response'
+    });
+  }
+
+  getCountVisitList() {
+    const reqHeader = this.authService.getHeaderWithBearer();
+    return this.httpClient.get<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/visitCount', {
       headers: reqHeader,
       observe: 'response'
     });

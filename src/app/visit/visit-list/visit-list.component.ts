@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import {  Component, Input, OnInit } from '@angular/core';
 import { VisitService } from '../visit.service';
-import {MatPaginator, PageEvent, } from '@angular/material/paginator';
+import { PageEvent, } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -12,16 +12,13 @@ export class VisitListComponent implements OnInit {
   @Input() id_persona: number | undefined;
   visitList: any;
   pageEvent: PageEvent | undefined;
-  datasource: null | undefined;
   pageSizeOptions = [5, 10, 25];
   showPageSizeOptions = true;
   length: any;
   pageSize = 5;
   pageIndex = 0;
   displayedColumns: string[] = ['nome', 'tipologia','data', 'ora', 'stato', 'peerjs', 'webrtc'];
-  names: string[] = [];
-  types: string[] = [];
-  dataSource: any;
+  dataSource!: MatTableDataSource<any, any>;
   constructor(private visitService: VisitService) {}
 
   ngOnInit() {
@@ -38,14 +35,7 @@ export class VisitListComponent implements OnInit {
       });
 
       this.visitService.getRangeVisitList(this.pageIndex, this.pageSize).subscribe(resp => {
-        if (resp.status == 200 && resp.body != null) {
-          this.visitList = resp.body;
-          this.datasource = this.visitList.data;
-
-          this.visitList.forEach((element: { id_visita: number; }) => {
-            this.getVisitName(element.id_visita);
-          });
-        }
+        this.assignData(resp);
       });
     } else {
       this.visitService.getCountVisitListSpecificUser(this.id_persona).subscribe(resp => {
@@ -55,37 +45,47 @@ export class VisitListComponent implements OnInit {
       });
 
       this.visitService.getRangeVisitListSpecificUser(this.id_persona, this.pageIndex, this.pageSize).subscribe(resp => {
-        if (resp.status == 200 && resp.body != null) {
-          this.visitList = resp.body;
-          this.datasource = this.visitList.data;
-
-          this.visitList.forEach((element: { id_visita: number; }) => {
-            this.getVisitName(element.id_visita);
-          });
-        }
+        this.assignData(resp);
       });
     }
   }
 
+  private assignData(data: any) {
+    if (data.status == 200 && data.body != null) {
+      this.visitList = data.body;
+      this.visitList.forEach(async (element: { id_visita: number; }) => {
+        const list = await this.getVisitName(element.id_visita);
+        Object.assign(element, list);
+      });
+      this.dataSource = new MatTableDataSource(this.visitList);
+    }
+  }
 
-onPageChange(event: PageEvent) {
-  this.pageEvent = event;
-  this.length = event.length;
-  this.pageSize = event.pageSize;
-  this.pageIndex = event.pageIndex;
-  this.refreshList();
-  return event;
-}
+  applyFilter(event: Event) {
+    let filterValue = (event.target as HTMLInputElement).value;
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase();
+    this.dataSource.filter = filterValue;
+  }
+
+  onPageChange(event: PageEvent) {
+    this.pageEvent = event;
+    this.length = event.length;
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.refreshList();
+    return event;
+  }
 
   getVisitName(visitid: number) {
-    this.visitService.getVisitName(visitid).subscribe(resp => {
-      if(resp.status == 200) {
-        this.names[visitid] = resp.body.nome + " " + resp.body.cognome;
-        this.types[visitid] = resp.body.tipo;
-      } else {
-        this.names[visitid] = "";
-        this.types[visitid] = "";
-      }
+    return new Promise<any>((resolve) => {
+      this.visitService.getVisitName(visitid).subscribe(resp => {
+        if(resp.status == 200) {
+          resolve( {name: resp.body.nome + " " + resp.body.cognome, type: resp.body.tipo});
+        } else {
+          resolve( {name: "", type: ""});
+        }
+      });
     });
   }
 }

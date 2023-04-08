@@ -20,7 +20,8 @@ const ItalianRangeLabel = (page: number, pageSize: number, length: number) => {
 
 export function getItalianPaginatorIntl() {
   const paginatorIntl = new MatPaginatorIntl();
-
+  paginatorIntl.firstPageLabel = 'Prima pagina';
+  paginatorIntl.lastPageLabel = 'Ultima pagina';
   paginatorIntl.itemsPerPageLabel = 'Visite per pagina:';
   paginatorIntl.nextPageLabel = 'Pagina successiva';
   paginatorIntl.previousPageLabel = 'Pagina precedente';

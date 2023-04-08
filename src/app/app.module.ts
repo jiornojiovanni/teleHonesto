@@ -20,8 +20,9 @@ import { DocumentListComponent } from './document/document-list/document-list.co
 import { SignupComponent } from './signup/signup.component';
 import { PatientListComponent } from './patients/patient-list/patient-list.component';
 import { SpecificDocumentListComponent } from './specific-document-list/specific-document-list.component';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
 import { HeaderComponent } from './header/header.component';
+import { getItalianPaginatorIntl } from './visit/visit-list/italian-paginator';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,7 @@ import { HeaderComponent } from './header/header.component';
     MatTableModule,
     MatButtonModule
   ],
-  providers: [],
+  providers: [{ provide: MatPaginatorIntl, useValue: getItalianPaginatorIntl() }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

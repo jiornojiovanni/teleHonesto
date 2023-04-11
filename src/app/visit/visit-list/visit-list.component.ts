@@ -61,12 +61,13 @@ export class VisitListComponent implements OnInit {
     }
   }
 
-  applyFilter(event: Event) {
+  //This only works for the current page, so it's not very useful
+  /* applyFilter(event: Event) {
     let filterValue = (event.target as HTMLInputElement).value;
     filterValue = filterValue.trim();
     filterValue = filterValue.toLowerCase();
     this.dataSource.filter = filterValue;
-  }
+  } */
 
   onPageChange(event: PageEvent) {
     this.pageEvent = event;

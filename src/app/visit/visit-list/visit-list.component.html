@@ -11,9 +11,11 @@
                 </div>
 
                 <div class="report-body">
-                  <mat-form-field>
+
+                  <!-- This only works for the current page, so it's not very useful -->
+                  <!-- <mat-form-field>
                     <input matInput (keyup)="applyFilter($event)" placeholder="Filtro">
-                  </mat-form-field>
+                  </mat-form-field> -->
 
                     <table mat-table [dataSource]="dataSource" class="items">
 

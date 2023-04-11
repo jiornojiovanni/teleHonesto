@@ -74,13 +74,14 @@ export class VisitService {
     });
   }
 
-  updateVisit(id_visita: string, newTime: string, newDate: string) {
+  updateVisit(id_visita: string, newTime: string, newDate: string, newState: string) {
     const reqHeader = this.authService.getHeaderWithBearer();
 
     return this.httpClient.post<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/visit', {
       ora: newTime,
       data: newDate,
-      id_visita: id_visita
+      id_visita: id_visita,
+      state: newState
     },{
       headers: reqHeader,
       observe: 'response'

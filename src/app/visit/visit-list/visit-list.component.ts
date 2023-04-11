@@ -2,6 +2,7 @@ import {  Component, Input, OnInit } from '@angular/core';
 import { VisitService } from '../visit.service';
 import { PageEvent, } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { UserService } from 'src/app/user/user.service';
 
 @Component({
   selector: 'app-visit-list',
@@ -17,9 +18,20 @@ export class VisitListComponent implements OnInit {
   length: any;
   pageSize = 5;
   pageIndex = 0;
-  displayedColumns: string[] = ['nome', 'tipologia','data', 'ora', 'stato', 'peerjs', 'webrtc', 'editButton', 'deleteButton'];
+  displayedColumns!: string[];
   dataSource!: MatTableDataSource<any, any>;
-  constructor(private visitService: VisitService) {}
+  editing = false;
+  constructor(private visitService: VisitService, private userService: UserService) {
+    userService.getUserData().subscribe(resp => {
+      if(resp.body.tipo == "medico") {
+        this.displayedColumns = ['nome', 'tipologia','data', 'ora', 'stato', 'peerjs', 'webrtc', 'editButton', 'deleteButton'];
+      } else {
+        this.displayedColumns = ['nome', 'tipologia','data', 'ora', 'stato', 'peerjs', 'webrtc', ];
+      }
+    });
+
+
+  }
 
   ngOnInit() {
     this.refreshList();
@@ -27,6 +39,7 @@ export class VisitListComponent implements OnInit {
   }
 
   refreshList() {
+    this.editing = false;
     if (this.id_persona == undefined) {
       this.visitService.getCountVisitList().subscribe(resp => {
         if (resp.status == 200) {
@@ -93,6 +106,20 @@ export class VisitListComponent implements OnInit {
   }
 
   edit(visit: any) {
-    visit.editable = !visit.editable;
+    visit.editable = true;
+    this.editing = true;
+  }
+
+  modify(visit: any) {
+    this.visitService.updateVisit(visit.id_visita, visit.ora_programmata, visit.data_programmata, visit.stato).subscribe(resp => {
+      visit.editable = false;
+      this.editing = false;
+    });
+  }
+
+  delete(visit: any) {
+    this.visitService.deleteVisit(visit.id_visita).subscribe(resp => {
+      this.refreshList();
+    });
   }
 }

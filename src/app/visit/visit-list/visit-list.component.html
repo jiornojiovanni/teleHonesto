@@ -31,12 +31,18 @@
 
                       <ng-container matColumnDef="data">
                         <th mat-header-cell *matHeaderCellDef class="t-op">Data programmata</th>
-                        <td mat-cell *matCellDef="let visita">{{ visita.data_programmata | date:'dd/MM/YYYY' }}</td>
+                        <td mat-cell *matCellDef="let visita">
+                          <p *ngIf="!visita.editable">{{ visita.data_programmata | date:'dd/MM/YYYY' }}</p>
+                          <input *ngIf="visita.editable" type="date" value={{visita.data_programmata}}>
+                        </td>
                       </ng-container>
 
                       <ng-container matColumnDef="ora">
                         <th mat-header-cell *matHeaderCellDef class="t-op">Orario programmato</th>
-                        <td mat-cell *matCellDef="let visita">{{ visita.ora_programmata.substring(0, 5) }}</td>
+                        <td mat-cell *matCellDef="let visita">
+                          <p *ngIf="!visita.editable">{{ visita.ora_programmata.substring(0, 5) }}</p>
+                          <input *ngIf="visita.editable" type="time" value="{{visita.ora_programmata.substring(0, 5)}}">
+                        </td>
                       </ng-container>
 
                       <ng-container matColumnDef="stato">
@@ -56,7 +62,14 @@
                           <td mat-cell><a *ngIf="(visita.stato !== 'terminata');" [routerLink]="['/WebRTC', visita.id_visita]">Unisciti</a></td>
                         </ng-container>
                       </ng-container>
-
+                      <ng-container matColumnDef="editButton">
+                        <th mat-header-cell *matHeaderCellDef class="t-op"></th>
+                        <ng-container *matCellDef="let visita">
+                          <td mat-cell>
+                            <button *ngIf="visita.stato==='programmata'" mat-raised-button (click)="edit(visita)">{{!visita.editable ? "Modifica" : "Invia"}}</button>
+                          </td>
+                        </ng-container>
+                      </ng-container>
                       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                     </table>

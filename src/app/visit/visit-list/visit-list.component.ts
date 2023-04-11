@@ -17,7 +17,7 @@ export class VisitListComponent implements OnInit {
   length: any;
   pageSize = 5;
   pageIndex = 0;
-  displayedColumns: string[] = ['nome', 'tipologia','data', 'ora', 'stato', 'peerjs', 'webrtc'];
+  displayedColumns: string[] = ['nome', 'tipologia','data', 'ora', 'stato', 'peerjs', 'webrtc', 'editButton'];
   dataSource!: MatTableDataSource<any, any>;
   constructor(private visitService: VisitService) {}
 
@@ -53,10 +53,12 @@ export class VisitListComponent implements OnInit {
   private assignData(data: any) {
     if (data.status == 200 && data.body != null) {
       this.visitList = data.body;
-      this.visitList.forEach(async (element: { id_visita: number; }) => {
+      this.visitList.forEach(async (element: any) => {
         const list = await this.getVisitName(element.id_visita);
         Object.assign(element, list);
+        element.editable = false;
       });
+
       this.dataSource = new MatTableDataSource(this.visitList);
     }
   }
@@ -88,5 +90,9 @@ export class VisitListComponent implements OnInit {
         }
       });
     });
+  }
+
+  edit(visit: any) {
+    visit.editable = !visit.editable;
   }
 }

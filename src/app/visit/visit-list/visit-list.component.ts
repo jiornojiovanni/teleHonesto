@@ -17,7 +17,7 @@ export class VisitListComponent implements OnInit {
   length: any;
   pageSize = 5;
   pageIndex = 0;
-  displayedColumns: string[] = ['nome', 'tipologia','data', 'ora', 'stato', 'peerjs', 'webrtc', 'editButton'];
+  displayedColumns: string[] = ['nome', 'tipologia','data', 'ora', 'stato', 'peerjs', 'webrtc', 'editButton', 'deleteButton'];
   dataSource!: MatTableDataSource<any, any>;
   constructor(private visitService: VisitService) {}
 

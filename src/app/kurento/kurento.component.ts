@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {WebRtcPeer} from 'kurento-utils';
 import {ActivatedRoute} from '@angular/router';
 import {UserService} from "../user/user.service";
@@ -19,7 +19,7 @@ const IN_CALL = 2;
   templateUrl: './kurento.component.html',
   styleUrls: ['./kurento.component.scss']
 })
-export class KurentoComponent implements OnInit {
+export class KurentoComponent implements OnInit, OnDestroy {
   visitID = this.activatedRoute.snapshot.params["visitId"];
   ws!: WebSocket;
   webRtcPeer: any;
@@ -196,13 +196,21 @@ export class KurentoComponent implements OnInit {
     this.sendMessage(message);
   };
 
-  stop(message: any) {
+  stop(message: boolean) {
     this.setCallState(NO_CALL);
     if (this.webRtcPeer) {
       this.webRtcPeer.dispose();
       this.webRtcPeer = null;
-
       if (!message) {
+        this.ws.close();
+        const message = {
+          id: 'stop'
+        };
+        this.sendMessage(message);
+      }
+    } else {
+      if (!message) {
+      this.ws.close();
         const message = {
           id: 'stop'
         };
@@ -257,6 +265,10 @@ export class KurentoComponent implements OnInit {
     const jsonMessage = JSON.stringify(message);
     console.log('Sending message: ' + jsonMessage);
     this.ws.send(jsonMessage);
+  }
+
+  ngOnDestroy(): void {
+    this.stop(false);
   }
 
 }

@@ -23,6 +23,10 @@ import { SpecificDocumentListComponent } from './specific-document-list/specific
 import {MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
 import { HeaderComponent } from './header/header.component';
 import { getItalianPaginatorIntl } from './visit/visit-list/italian-paginator';
+import { KurentoComponent } from './kurento/kurento.component';
+import {MatCardModule} from "@angular/material/card";
+import {MatRadioModule} from "@angular/material/radio";
+import {MatGridListModule} from "@angular/material/grid-list";
 
 @NgModule({
   declarations: [
@@ -37,7 +41,8 @@ import { getItalianPaginatorIntl } from './visit/visit-list/italian-paginator';
     DocumentListComponent,
     PatientListComponent,
     SpecificDocumentListComponent,
-    HeaderComponent
+    HeaderComponent,
+    KurentoComponent
   ],
   imports: [
     BrowserModule,
@@ -53,13 +58,16 @@ import { getItalianPaginatorIntl } from './visit/visit-list/italian-paginator';
     NgxWebrtcModule.forRoot({
       userIdentifier: 'id',
       debug: true
-    })
+    }),
+    MatCardModule,
+    MatRadioModule,
+    MatGridListModule
   ],
   exports: [
     MatTableModule,
     MatButtonModule
   ],
-  providers: [{ provide: MatPaginatorIntl, useValue: getItalianPaginatorIntl() }],
+  providers: [{ provide: MatPaginatorIntl, useValue: getItalianPaginatorIntl() },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

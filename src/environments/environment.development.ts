@@ -1,4 +1,5 @@
 export const environment = {
-  apiLocation: 'localhost',
-  apiPort: '8080'
+  apiLocation: '192.168.178.64',
+  apiPort: '8080',
+  kurentoPort: '443'
 };

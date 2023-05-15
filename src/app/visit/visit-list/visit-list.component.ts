@@ -24,9 +24,9 @@ export class VisitListComponent implements OnInit {
   constructor(private visitService: VisitService, private userService: UserService) {
     userService.getUserData().subscribe(resp => {
       if(resp.body.tipo == "medico") {
-        this.displayedColumns = ['nome', 'tipologia','data', 'ora', 'stato', 'peerjs', 'webrtc', 'editButton', 'deleteButton'];
+        this.displayedColumns = ['nome', 'tipologia','data', 'ora', 'stato', 'peerjs', 'webrtc', 'kurento', 'editButton', 'deleteButton'];
       } else {
-        this.displayedColumns = ['nome', 'tipologia','data', 'ora', 'stato', 'peerjs', 'webrtc', ];
+        this.displayedColumns = ['nome', 'tipologia','data', 'ora', 'stato', 'peerjs', 'webrtc', 'kurento', ];
       }
     });
 

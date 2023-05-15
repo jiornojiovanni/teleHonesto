@@ -64,6 +64,12 @@
                           <td mat-cell><a *ngIf="(visita.stato !== 'terminata');" [routerLink]="['/WebRTC', visita.id_visita]">Unisciti</a></td>
                         </ng-container>
                       </ng-container>
+                      <ng-container matColumnDef="kurento">
+                        <th mat-header-cell *matHeaderCellDef class="t-op">POC Kurento</th>
+                        <ng-container *matCellDef="let visita">
+                          <td mat-cell><a *ngIf="(visita.stato !== 'terminata');" [routerLink]="['/kurento', visita.id_visita]">Unisciti</a></td>
+                        </ng-container>
+                      </ng-container>
                       <ng-container matColumnDef="editButton">
                         <th mat-header-cell *matHeaderCellDef class="t-op">Modifica</th>
                         <ng-container *matCellDef="let visita" >

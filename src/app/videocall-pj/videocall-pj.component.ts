@@ -18,6 +18,7 @@ export class VideocallPJComponent implements OnDestroy{
   visitID = this.activatedRoute.snapshot.params["visitId"];
   peer!: Peer;
   mediaConnection!: MediaConnection;
+  peerConnection!: RTCPeerConnection;
   stream!: MediaStream;
   localStream!: MediaStream;
   showForm = false;
@@ -32,7 +33,7 @@ export class VideocallPJComponent implements OnDestroy{
     userService.getUserData().subscribe(resp => {
       if (resp.status == 200) {
         this.peer = new Peer(
-          "peer" + resp.body.id_persona,
+          "peer" + resp.body.id_persona + this.visitID,
           {
             host: environment.apiLocation,
             port: Number(environment.apiPort),
@@ -59,7 +60,7 @@ export class VideocallPJComponent implements OnDestroy{
   startCall() {
     this.visitService.getVisitPartecipants(this.visitID).subscribe(resp => {
       if (resp.status == 200) {
-        this.call("peer" + resp.body.fk_persona);
+        this.call("peer" + resp.body.fk_persona + this.visitID);
         this.showLoading = true;
       }
     });
@@ -90,8 +91,8 @@ export class VideocallPJComponent implements OnDestroy{
 
   async call(peerId: string) {
     this.stream = await this.getMediaStream();
-    this.mediaConnection = this.peer.call(peerId, this.stream, {metadata: {visit: this.visitID}});
-
+    this.mediaConnection = this.peer.call(peerId, this.stream);
+    this.peerConnection = this.mediaConnection.peerConnection;
     //This gets called two times thanks to a library bug, ignore the browser errors https://github.com/peers/peerjs/issues/609
     this.mediaConnection.on('stream', (remoteStream: MediaStream) => {
       this.visitService.updateJoinTime(this.visitID).subscribe();
@@ -137,11 +138,7 @@ export class VideocallPJComponent implements OnDestroy{
     this.peer.on('call', async (call: MediaConnection) => {
       this.stream = await this.getMediaStream();
       this.mediaConnection = call;
-
-      //If the visit id of the call does not correspond to the current visit id we do not answer because it's a different visit.
-      if(this.mediaConnection.metadata.visit != this.visitID)
-        return;
-
+      this.peerConnection = this.mediaConnection.peerConnection;
       this.mediaConnection.answer(this.stream);
 
       //This gets called two times thanks to a library bug, ignore the browser errors https://github.com/peers/peerjs/issues/609

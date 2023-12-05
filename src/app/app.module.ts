@@ -27,7 +27,7 @@ import { KurentoComponent } from './kurento/kurento.component';
 import {MatCardModule} from "@angular/material/card";
 import {MatRadioModule} from "@angular/material/radio";
 import {MatGridListModule} from "@angular/material/grid-list";
-
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -67,7 +67,7 @@ import {MatGridListModule} from "@angular/material/grid-list";
     MatTableModule,
     MatButtonModule
   ],
-  providers: [{ provide: MatPaginatorIntl, useValue: getItalianPaginatorIntl() },],
+  providers: [{ provide: MatPaginatorIntl, useValue: getItalianPaginatorIntl() }, {provide: LocationStrategy, useClass: HashLocationStrategy},],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

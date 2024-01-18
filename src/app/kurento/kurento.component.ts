@@ -42,9 +42,9 @@ export class KurentoComponent implements OnInit, OnDestroy {
     this.localVideo = this.elRef.nativeElement.querySelector('#local-video');
     this.remoteVideo = this.elRef.nativeElement.querySelector('#remote-video');
     const resp = await firstValueFrom(this.userService.getUserData());
-    this.ownPeer = resp.body.id_persona;
+    this.ownPeer = "peer" + resp.body.id_persona + this.visitID;
     const resp1 = await firstValueFrom(this.visitService.getVisitPartecipants(this.visitID));
-    this.peer = resp1.body.fk_persona;
+    this.peer = "peer" + resp1.body.fk_persona + this.visitID;
     this.ws = new WebSocket('wss://' + environment.apiLocation + ":" + environment.kurentoPort);
     this.ws.addEventListener("open", () => {
 

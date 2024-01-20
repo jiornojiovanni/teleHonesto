@@ -1,6 +1,6 @@
 import {Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {WebRtcPeer} from 'kurento-utils';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {UserService} from "../user/user.service";
 import {VisitService} from "../visit/visit.service";
 import {firstValueFrom} from "rxjs";
@@ -29,12 +29,17 @@ export class KurentoComponent implements OnInit, OnDestroy {
   registerState: any = null;
   peer!: string;
   ownPeer!: string;
+  isMicEnabled = true;
+  isVideoEnabled = true;
+  stream!: MediaStream;
+  localStream!: MediaStream;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
     private visitService: VisitService,
-    private elRef: ElementRef) {
+    private elRef: ElementRef,
+    private router: Router) {
 
   }
 
@@ -126,7 +131,7 @@ export class KurentoComponent implements OnInit, OnDestroy {
     }
   }
 
-  callResponse(message: any) {
+  async callResponse(message: any) {
     if (message.response != 'accepted') {
       console.info('Call not accepted by peer. Closing call');
       const errorMessage = message.message ? message.message
@@ -136,10 +141,12 @@ export class KurentoComponent implements OnInit, OnDestroy {
     } else {
       this.setCallState(IN_CALL);
       this.webRtcPeer.processAnswer(message.sdpAnswer);
+      this.stream = await this.getMediaStream();
     }
   }
 
-  startCommunication(message: any) {
+  async startCommunication(message: any) {
+    this.stream = await this.getMediaStream();
     this.setCallState(IN_CALL);
     this.webRtcPeer.processAnswer(message.sdpAnswer);
   }
@@ -269,6 +276,27 @@ export class KurentoComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.stop(false);
+  }
+
+  endCall(): void {
+    this.stop(true);
+    this.visitService.stopVisit(this.visitID).subscribe();
+    this.router.navigateByUrl('profile');
+  }
+
+  muteAudio(): void {
+    this.isMicEnabled = !this.isMicEnabled;
+    this.stream.getAudioTracks()[0].enabled = this.isMicEnabled;
+  }
+
+  muteVideo(): void {
+    this.isVideoEnabled = !this.isVideoEnabled;
+    this.stream.getVideoTracks()[0].enabled = this.isVideoEnabled;
+    this.localStream.getVideoTracks()[0].enabled = this.isVideoEnabled;
+  }
+
+  getMediaStream() {
+    return navigator.mediaDevices.getUserMedia({ video: true, audio: true });
   }
 
 }

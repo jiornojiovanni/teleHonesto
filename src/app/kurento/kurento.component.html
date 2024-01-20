@@ -1,22 +1,21 @@
-<mat-grid-list cols="2">
-  <mat-grid-tile>
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Local Video</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <video autoplay id="local-video"></video>
-      </mat-card-content>
-    </mat-card>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Remote Video</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <video autoplay id="remote-video"></video>
-      </mat-card-content>
-    </mat-card>
-  </mat-grid-tile>
-</mat-grid-list>
+<!-- video-chat.component.html -->
+
+<div class="video-chat-container">
+  <div class="participant" id="participant1">
+    <video autoplay id="local-video"></video>
+    <div class="participant-info">You</div>
+  </div>
+  
+  <div class="participant" id="participant2">
+    <video autoplay id="remote-video"></video>
+    <div class="participant-info">Participant 2</div>
+  </div>
+
+  <div class="button-container">
+    <button class="button" (click)="endCall()">Fine chiamata</button>
+    <button class="button" (click)="muteAudio()">{{ isMicEnabled ? "Disabilita microfono" : "Abilita microfono"}}</button>
+    <button class="button" (click)="muteVideo()">{{ isVideoEnabled ? "Disabilita webcam" : "Abilita webcam"}}</button>
+  </div>
+</div>
+
+<app-call-form [visitID]="visitID"></app-call-form>

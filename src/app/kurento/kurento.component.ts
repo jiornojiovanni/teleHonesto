@@ -4,7 +4,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {UserService} from "../user/user.service";
 import {VisitService} from "../visit/visit.service";
 import {firstValueFrom} from "rxjs";
-import {webSocket, WebSocketSubject} from "rxjs/webSocket";
 import {environment} from "../../environments/environment";
 
 const NOT_REGISTERED = 0;
@@ -30,7 +29,6 @@ export class KurentoComponent implements OnInit, OnDestroy {
   peer!: string;
   ownPeer!: string;
   isMicEnabled = true;
-  isVideoEnabled = true;
   stream!: MediaStream;
   localStream!: MediaStream;
 
@@ -286,17 +284,6 @@ export class KurentoComponent implements OnInit, OnDestroy {
 
   muteAudio(): void {
     this.isMicEnabled = !this.isMicEnabled;
-    this.stream.getAudioTracks()[0].enabled = this.isMicEnabled;
+    this.webRtcPeer.audioEnabled  = this.isMicEnabled;
   }
-
-  muteVideo(): void {
-    this.isVideoEnabled = !this.isVideoEnabled;
-    this.stream.getVideoTracks()[0].enabled = this.isVideoEnabled;
-    this.localStream.getVideoTracks()[0].enabled = this.isVideoEnabled;
-  }
-
-  getMediaStream() {
-    return navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-  }
-
 }

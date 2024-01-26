@@ -67,7 +67,7 @@ export class WebRTCComponent implements OnDestroy , OnInit{
     private documentService: DocumentService,
     private router: Router
   ) {
-    this.socket = io("https://"+environment.apiLocation+ ":" + environment.apiPort);
+    this.socket = io("https://"+environment.apiLocation+ ":" + environment.apiPort, {transports: ["polling"]});
   }
    nav(): void {
     if(this.navOpen == true){

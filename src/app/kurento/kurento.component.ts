@@ -29,8 +29,6 @@ export class KurentoComponent implements OnInit, OnDestroy {
   peer!: string;
   ownPeer!: string;
   isMicEnabled = true;
-  stream!: MediaStream;
-  localStream!: MediaStream;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -139,12 +137,10 @@ export class KurentoComponent implements OnInit, OnDestroy {
     } else {
       this.setCallState(IN_CALL);
       this.webRtcPeer.processAnswer(message.sdpAnswer);
-      this.stream = await this.getMediaStream();
     }
   }
 
   async startCommunication(message: any) {
-    this.stream = await this.getMediaStream();
     this.setCallState(IN_CALL);
     this.webRtcPeer.processAnswer(message.sdpAnswer);
   }

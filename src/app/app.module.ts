@@ -28,6 +28,7 @@ import {MatCardModule} from "@angular/material/card";
 import {MatRadioModule} from "@angular/material/radio";
 import {MatGridListModule} from "@angular/material/grid-list";
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { GdprComponent } from './gdpr/gdpr.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,7 +43,8 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     PatientListComponent,
     SpecificDocumentListComponent,
     HeaderComponent,
-    KurentoComponent
+    KurentoComponent,
+    GdprComponent
   ],
   imports: [
     BrowserModule,

@@ -87,7 +87,7 @@
                   <div class="form-outline mb-4">
                     <label class="form-label" for="form2Example17">Provincia</label>
 
-                    <select class="form-control form-control-lg" name="provincia" id="type" [(ngModel)]="provincia">
+                    <select class="form-control form-control-lg" name="provincia" id="type" [(ngModel)]="provincia" required>
                       <option value="">Scegli una provincia</option>
                       <option value="AG">Agrigento</option>
                       <option value="AL">Alessandria</option>
@@ -204,6 +204,13 @@
                     <label class="form-label" for="form2Example27">Password</label>
                     <input type="password" id="passwordField" class="form-control form-control-lg" name="password" [(ngModel)]="password" placeholder="Inserisci password"
                       [(ngModel)]="password" required />
+
+                  </div>
+
+                  <div class="form-outline mb-4">
+                    <input type="checkbox" id="consentBox" name="consent" ngModel required />
+                    &nbsp;
+                    <label class="form-label" for="form2Example27"><a href="/#/gdpr" target="_blank">Consenso al trattamento dei dati</a></label>
 
                   </div>
 

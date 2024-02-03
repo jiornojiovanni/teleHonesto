@@ -9,11 +9,13 @@ import { SignupComponent } from './signup/signup.component';
 import { SpecificDocumentListComponent } from './specific-document-list/specific-document-list.component';
 import { KurentoComponent } from "./kurento/kurento.component";
 import { GdprComponent } from './gdpr/gdpr.component';
+import { DataTakeoutComponent } from './data-takeout/data-takeout.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'gdpr', component: GdprComponent },
+  { path: 'data-takeout', component: DataTakeoutComponent, canActivate: [AuthGuard]},
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   { path: 'pocPJ/:visitId', component: VideocallPJComponent, canActivate: [AuthGuard]},
   { path: 'WebRTC/:visitId', component: WebRTCComponent, canActivate: [AuthGuard]},

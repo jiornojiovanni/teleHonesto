@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth/auth.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -78,6 +79,25 @@ export class UserService {
     return this.httpClient.get<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/peopleassisted', {
       headers: reqHeader,
       observe: 'response'
+    });
+  }
+
+  deleteAllData() {
+    const reqHeader = this.authService.getHeaderWithBearer();
+
+    return this.httpClient.delete<any>("https://" + environment.apiLocation + ":" + environment.apiPort + '/deleteuser', {
+      headers: reqHeader,
+      observe: 'response'
+    });
+  }
+
+  downloadAllData() {
+    const reqHeader = this.authService.getHeaderWithBearer();
+
+    return this.httpClient.get("https://" + environment.apiLocation + ":" + environment.apiPort + '/takeout', {
+      headers: reqHeader,
+      observe: 'response',
+      responseType: 'blob' as 'json'
     });
   }
 }

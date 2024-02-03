@@ -29,6 +29,9 @@ import {MatRadioModule} from "@angular/material/radio";
 import {MatGridListModule} from "@angular/material/grid-list";
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { GdprComponent } from './gdpr/gdpr.component';
+import { DataTakeoutComponent } from './data-takeout/data-takeout.component';
+import { DialogComponent } from './dialog/dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +47,9 @@ import { GdprComponent } from './gdpr/gdpr.component';
     SpecificDocumentListComponent,
     HeaderComponent,
     KurentoComponent,
-    GdprComponent
+    GdprComponent,
+    DataTakeoutComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +68,8 @@ import { GdprComponent } from './gdpr/gdpr.component';
     }),
     MatCardModule,
     MatRadioModule,
-    MatGridListModule
+    MatGridListModule,
+    MatDialogModule
   ],
   exports: [
     MatTableModule,

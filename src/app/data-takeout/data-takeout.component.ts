@@ -50,7 +50,7 @@ export class DataTakeoutComponent {
           type: "text/csv"
         });
 
-        saveAs(data, "products.csv");
+        saveAs(data, "takeout.csv");
       });
     });
   }
